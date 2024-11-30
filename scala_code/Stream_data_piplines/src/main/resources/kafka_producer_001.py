@@ -1,9 +1,10 @@
 from kafka import KafkaProducer
 import time
 
-
 import six
 import sys
+
+# current version of python while creating this script is 3.12.3 need to change as per python version
 if sys.version_info >= (3, 12, 3):
     sys.modules['kafka.vendor.six.moves'] = six.moves
 
