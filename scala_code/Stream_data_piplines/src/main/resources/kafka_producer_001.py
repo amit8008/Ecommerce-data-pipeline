@@ -3,8 +3,6 @@ import time
 
 import six
 import sys
-
-# current version of python while creating this script is 3.12.3 need to change as per python version
 if sys.version_info >= (3, 12, 3):
     sys.modules['kafka.vendor.six.moves'] = six.moves
 
@@ -15,13 +13,15 @@ TOPIC = "my-topic"
 # Create kafka producer
 producer = KafkaProducer(
     bootstrap_servers = [KAFKA_BROKER],
-    value_serializer = lambda v: v.encode("utf-8")
+    value_serializer = lambda v: v.encode("utf-8"),
+    key_serializer = lambda v: v.encode("utf-8")
 )
 
 # Produce messages to kafka
-for i in range(10):
+for i in range(10, 20):
     message = f"This is line number {i}"
-    producer.send(TOPIC,value = message)
+    key = f"{i * 2}"
+    producer.send(TOPIC,key = key, value = message)
     print(f"Sent: {message}")
     time.sleep(5) # delay
 
