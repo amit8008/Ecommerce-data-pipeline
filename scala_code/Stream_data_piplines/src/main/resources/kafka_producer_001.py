@@ -1,3 +1,5 @@
+#pip install kafka-python-ng
+
 from kafka import KafkaProducer
 import time
 
