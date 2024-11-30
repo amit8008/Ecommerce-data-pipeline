@@ -42,12 +42,19 @@ doker exec -it <container_id> bash
 open kafka producer in one terminal
 ```shell
 cd /bin/
- kafka-console-producer --bootstrap-server=localhost:9092 --topic <topice_name>
+ kafka-console-producer --bootstrap-server=localhost:9092 --topic my-topic
 ```
 open kafka consumer in other terminal
 ```shell
 cd /bin/
 kafka-console-consumer --bootstrap-server=localhost:9092 --topic my-topic --from-beginning
+```
+
+### python setup for kafka producer
+```python
+pip install kafka-python-ng
+
+python kafka_producer_001.py
 ```
 
 ## Spark in docker
