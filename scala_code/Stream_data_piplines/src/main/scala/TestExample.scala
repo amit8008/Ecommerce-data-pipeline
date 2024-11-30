@@ -14,7 +14,7 @@ object TestExample extends App {
     .read
     .option("inferSchema", "true")
     .option("header", "true")
-    .csv("C:/Users/Public/Documents/Spark/Spark-The-Definitive-Guide/data/flight-data/csv/2015-summary.csv")
+    .csv(args(0))
 
   flightData2015.select(max(col("count"))).show()
   flightData2015.show(5)

@@ -2,7 +2,7 @@ import org.apache.spark.sql.SparkSession
 /**
  * Kafka is running on docker
  */
-object ConnectWithKafka extends App {
+object ConnectWithKafka {
   val spark = SparkSession
     .builder
     .appName("Getting data from Kafka")

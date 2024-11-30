@@ -1,6 +1,6 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "2.13.14"
+ThisBuild / scalaVersion := "2.12.18"
 
 lazy val root = (project in file("."))
   .settings(
@@ -8,8 +8,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-core" % "3.5.1" % "provided",
       "org.apache.spark" %% "spark-sql" % "3.5.1" % "provided",
-      "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.5.0",
-      "org.scala-lang" % "scala-reflect" % "2.13.14"
+      "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.5.0" % "provided"
     ),
-    assembly / assemblyJarName := "spark-streamingdata-pipeline-1.0.jar",
+//    assembly / assemblyJarName := "spark-streamingdata-pipeline-1.0.jar",
   )
