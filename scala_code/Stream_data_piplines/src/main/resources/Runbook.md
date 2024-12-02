@@ -14,3 +14,12 @@ Stream_data_pipelines-assembly-0.1.0-SNAPSHOT.jar \
 
 ### Data pipeline
 python_producer -> kafka topic -> spark streaming
+
+### completed
+Using External Configuration (e.g., application.conf)
+   Store the JDBC properties in an external configuration file (e.g., application.conf) and load them in the code using libraries like Typesafe Config.
+Example:
+spark-submit --class GettingDataBooksDbDataPSql \
+   --driver-class-path /opt/bitnami/spark/amit/ext_lib/postgresql-42.7.3.jar \
+   --conf spark.driver.extraJavaOptions=-Dconfig.file=/opt/bitnami/spark/amit/conf/application.conf \
+   batch_data_piplines-assembly-0.1.0-SNAPSHOT.jar
