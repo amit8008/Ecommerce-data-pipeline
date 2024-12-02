@@ -2,7 +2,7 @@ import org.apache.spark.sql.SparkSession
 /**
  * Kafka is running on docker
  */
-object ConnectWithKafka {
+object ConnectWithKafka extends App {
   val spark = SparkSession
     .builder
     .appName("Getting data from Kafka")
@@ -16,7 +16,7 @@ object ConnectWithKafka {
     .readStream
     .format("kafka")
     .option("kafka.bootstrap.servers", "host.docker.internal:9092")
-    .option("subscribe", "quickstart")
+    .option("subscribe", "my-topic")
     .option("startingOffsets", "earliest")
     .load()
 
@@ -27,7 +27,7 @@ object ConnectWithKafka {
   // Print the data to the console
   val query = kafkaData.writeStream
     .outputMode("append")
-//    .outputMode("complete")
+//    .outputMode("complete") // only use when streaming aggregation is apply on dataframe
     .format("console")
     .start()
 
