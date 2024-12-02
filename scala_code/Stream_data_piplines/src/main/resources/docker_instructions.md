@@ -50,6 +50,12 @@ cd /bin/
 kafka-console-consumer --bootstrap-server=localhost:9092 --topic my-topic --from-beginning
 ```
 
+open kafka consumer in other terminal
+```shell
+cd /bin/
+kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --formatter kafka.tools.DefaultMessageFormatter --property print.offset=true --property print.timestamp=true --property print.key=true --property print.value=true --from-beginning
+```
+
 ### python setup for kafka producer
 ```python
 pip install kafka-python-ng
