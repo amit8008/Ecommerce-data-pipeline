@@ -8,7 +8,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "org.apache.spark" %% "spark-core" % "3.5.1" % "provided",
       "org.apache.spark" %% "spark-sql" % "3.5.1" % "provided",
-      "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.5.0" % "provided"
+      "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.5.0" % "provided",
+      "com.typesafe" % "config" % "1.4.2"
     ),
 //    assembly / assemblyJarName := "spark-streamingdata-pipeline-1.0.jar",
   )
