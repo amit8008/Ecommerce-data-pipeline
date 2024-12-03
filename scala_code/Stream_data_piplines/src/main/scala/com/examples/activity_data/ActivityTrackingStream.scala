@@ -39,5 +39,10 @@ object ActivityTrackingStream extends App {
     .outputMode("complete")
     .start()
 
+  /**
+   * Exception in thread "main" org.apache.spark.sql.AnalysisException: Append output mode not supported
+   * when there are streaming aggregations on streaming DataFrames/DataSets without watermark;
+   */
+
   activityQuery.awaitTermination()
 }
