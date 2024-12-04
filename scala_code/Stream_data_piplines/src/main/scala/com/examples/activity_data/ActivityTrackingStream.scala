@@ -30,6 +30,8 @@ object ActivityTrackingStream extends App {
     .option("maxFilesPerTrigger", "1")
     .json(config.getString("activity_data.path"))
 
+  streaming.printSchema()
+
   val activityCounts = streaming
     .groupBy("gt")
     .count()
@@ -46,16 +48,27 @@ object ActivityTrackingStream extends App {
    */
 
   import org.apache.spark.sql.functions.expr
-  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
-    .where("stairs")
-    .where("gt is not null")
-    .select("gt", "model", "arrival_time", "creation_time")
+//  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
+//    .where("stairs")
+//    .where("gt is not null")
+//    .select("gt", "model", "arrival_time", "creation_time")
+//    .writeStream
+////    .queryName("simple_transform")
+//    .format("console")
+//    .outputMode("append")
+//    .start()
+
+  val deviceModelStats = streaming.cube("gt", "model").avg()
+    .drop("avg(Arrival_time)")
+    .drop("avg(Creation_Time)")
+    .drop("avg(Index)")
     .writeStream
-//    .queryName("simple_transform")
+//    .queryName("device_counts")
     .format("console")
-    .outputMode("append")
+    .outputMode("complete")
     .start()
 
-  simpleTransform.awaitTermination()
+  deviceModelStats.awaitTermination()
+//  simpleTransform.awaitTermination()
 //  activityQuery.awaitTermination()
 }
