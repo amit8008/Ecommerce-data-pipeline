@@ -2,6 +2,7 @@ package com.examples.activity_data
 
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.streaming.Trigger
 
 object ActivityTrackingStream extends App {
 
@@ -49,18 +50,20 @@ object ActivityTrackingStream extends App {
 
   /*
   *Transformation
+  * Processing time trigger
    */
 
   import org.apache.spark.sql.functions.expr
-//  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
-//    .where("stairs")
-//    .where("gt is not null")
-//    .select("gt", "model", "arrival_time", "creation_time")
-//    .writeStream
-////    .queryName("simple_transform")
-//    .format("console")
-//    .outputMode("append")
-//    .start()
+  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
+    .where("stairs")
+    .where("gt is not null")
+    .select("gt", "model", "arrival_time", "creation_time")
+    .writeStream
+    .trigger(Trigger.ProcessingTime("30 seconds"))
+//    .queryName("simple_transform")
+    .format("console")
+    .outputMode("append")
+    .start()
 
   /*
   *Aggregation
@@ -80,18 +83,18 @@ object ActivityTrackingStream extends App {
   *Join
    */
 
-  val historicalAgg = static.groupBy("gt", "model").avg()
-  val deviceModelStats = streaming.drop("Arrival_Time", "Creation_Time", "Index")
-    .cube("gt", "model").avg()
-    .join(historicalAgg, Seq("gt", "model"))
-    .writeStream
-//    .queryName("device_counts")
-    .format("console")
-    .outputMode("complete")
-    .start()
+//  val historicalAgg = static.groupBy("gt", "model").avg()
+//  val deviceModelStats = streaming.drop("Arrival_Time", "Creation_Time", "Index")
+//    .cube("gt", "model").avg()
+//    .join(historicalAgg, Seq("gt", "model"))
+//    .writeStream
+////    .queryName("device_counts")
+//    .format("console")
+//    .outputMode("complete")
+//    .start()
 
 
-  deviceModelStats.awaitTermination()
-//  simpleTransform.awaitTermination()
+//  deviceModelStats.awaitTermination()
+  simpleTransform.awaitTermination()
 //  activityQuery.awaitTermination()
 }
