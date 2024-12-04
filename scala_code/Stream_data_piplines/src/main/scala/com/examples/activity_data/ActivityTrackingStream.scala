@@ -1,5 +1,6 @@
 package com.examples.activity_data
 
+import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
 
 object ActivityTrackingStream extends App {
@@ -20,29 +21,41 @@ object ActivityTrackingStream extends App {
    * There are several different smartphones and smartwatches used, and nine total users.
    * You can download the data here, in the activity data folder.
    */
-  val dataPath = "C:\\Users\\Public\\Documents\\Spark\\Spark-The-Definitive-Guide\\data\\activity-data"
+  val config = ConfigFactory.load()
 //  val static = spark.read.json(dataPath)
 //  val dataSchema = static.schema
 //  println(dataSchema)
 
   val streaming = spark.readStream
     .option("maxFilesPerTrigger", "1")
-    .json(dataPath)
+    .json(config.getString("activity_data.path"))
 
   val activityCounts = streaming
     .groupBy("gt")
     .count()
 
-  val activityQuery = activityCounts.writeStream
-//    .queryName("activity_counts")
-    .format("console")
-    .outputMode("complete")
-    .start()
+//  val activityQuery = activityCounts.writeStream
+////    .queryName("activity_counts")
+//    .format("console")
+//    .outputMode("complete")
+//    .start()
 
   /**
    * Exception in thread "main" org.apache.spark.sql.AnalysisException: Append output mode not supported
    * when there are streaming aggregations on streaming DataFrames/DataSets without watermark;
    */
 
-  activityQuery.awaitTermination()
+  import org.apache.spark.sql.functions.expr
+  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
+    .where("stairs")
+    .where("gt is not null")
+    .select("gt", "model", "arrival_time", "creation_time")
+    .writeStream
+//    .queryName("simple_transform")
+    .format("console")
+    .outputMode("append")
+    .start()
+
+  simpleTransform.awaitTermination()
+//  activityQuery.awaitTermination()
 }
