@@ -60,7 +60,8 @@ object ActivityTrackingStream extends App {
     .select("gt", "model", "arrival_time", "creation_time")
     .writeStream
 //    .trigger(Trigger.ProcessingTime("30 seconds"))
-    .trigger(Trigger.Once())
+//    .trigger(Trigger.Once())
+    .trigger(Trigger.AvailableNow())
 //    .queryName("simple_transform")
     .format("console")
     .outputMode("append")
