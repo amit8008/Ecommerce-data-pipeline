@@ -22,7 +22,7 @@ object ActivityTrackingStream extends App {
    * You can download the data here, in the activity data folder.
    */
   val config = ConfigFactory.load()
-//  val static = spark.read.json(dataPath)
+  val static = spark.read.json(config.getString("activity_data.path"))
 //  val dataSchema = static.schema
 //  println(dataSchema)
 
@@ -47,6 +47,10 @@ object ActivityTrackingStream extends App {
    * when there are streaming aggregations on streaming DataFrames/DataSets without watermark;
    */
 
+  /*
+  *Transformation
+   */
+
   import org.apache.spark.sql.functions.expr
 //  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
 //    .where("stairs")
@@ -58,15 +62,34 @@ object ActivityTrackingStream extends App {
 //    .outputMode("append")
 //    .start()
 
-  val deviceModelStats = streaming.cube("gt", "model").avg()
-    .drop("avg(Arrival_time)")
-    .drop("avg(Creation_Time)")
-    .drop("avg(Index)")
+  /*
+  *Aggregation
+   */
+//  val deviceModelStats = streaming.cube("gt", "model").avg()
+//    .drop("avg(Arrival_time)")
+//    .drop("avg(Creation_Time)")
+//    .drop("avg(Index)")
+//    .writeStream
+////    .queryName("device_counts")
+//    .format("console")
+//    .outputMode("complete")
+//    .start()
+
+
+  /*
+  *Join
+   */
+
+  val historicalAgg = static.groupBy("gt", "model").avg()
+  val deviceModelStats = streaming.drop("Arrival_Time", "Creation_Time", "Index")
+    .cube("gt", "model").avg()
+    .join(historicalAgg, Seq("gt", "model"))
     .writeStream
 //    .queryName("device_counts")
     .format("console")
     .outputMode("complete")
     .start()
+
 
   deviceModelStats.awaitTermination()
 //  simpleTransform.awaitTermination()
