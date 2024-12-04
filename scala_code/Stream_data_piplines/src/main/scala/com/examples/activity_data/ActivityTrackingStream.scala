@@ -59,7 +59,8 @@ object ActivityTrackingStream extends App {
     .where("gt is not null")
     .select("gt", "model", "arrival_time", "creation_time")
     .writeStream
-    .trigger(Trigger.ProcessingTime("30 seconds"))
+//    .trigger(Trigger.ProcessingTime("30 seconds"))
+    .trigger(Trigger.Once())
 //    .queryName("simple_transform")
     .format("console")
     .outputMode("append")
