@@ -30,13 +30,13 @@ object ActivityTrackingStream extends App {
 
   /*
   Creation_Time - unix time in nano seconds, Hence divided by 1,000,000,000
-  Arrival_Time - unix time in mili seconds, Hence devived by 1000
+  Arrival_Time - unix time in mili seconds, Hence divided by 1000
    */
   static
     .select(col("Creation_Time"), col("Arrival_Time"))
     .withColumn("Creation_timestamp", (col("Creation_Time")/1e9).cast("timestamp"))
     .withColumn("Arrival_timestamp", to_timestamp(from_unixtime(col("Arrival_Time")/1000)))
-    .show(false)
+//    .show(false)
 //    .printSchema()
 
   val streaming = spark.readStream
