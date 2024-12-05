@@ -2,6 +2,7 @@ package com.examples.activity_data
 
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.{col, from_unixtime, to_timestamp}
 import org.apache.spark.sql.streaming.Trigger
 
 object ActivityTrackingStream extends App {
@@ -25,7 +26,18 @@ object ActivityTrackingStream extends App {
   val config = ConfigFactory.load()
   val static = spark.read.json(config.getString("activity_data.path"))
 //  val dataSchema = static.schema
-//  println(dataSchema)
+  static.printSchema()
+
+  /*
+  Creation_Time - unix time in nano seconds, Hence divided by 1,000,000,000
+  Arrival_Time - unix time in mili seconds, Hence devived by 1000
+   */
+  static
+    .select(col("Creation_Time"), col("Arrival_Time"))
+    .withColumn("Creation_timestamp", (col("Creation_Time")/1e9).cast("timestamp"))
+    .withColumn("Arrival_timestamp", to_timestamp(from_unixtime(col("Arrival_Time")/1000)))
+    .show(false)
+//    .printSchema()
 
   val streaming = spark.readStream
     .option("maxFilesPerTrigger", "1")
@@ -54,18 +66,18 @@ object ActivityTrackingStream extends App {
    */
 
   import org.apache.spark.sql.functions.expr
-  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
-    .where("stairs")
-    .where("gt is not null")
-    .select("gt", "model", "arrival_time", "creation_time")
-    .writeStream
-//    .trigger(Trigger.ProcessingTime("30 seconds"))
-//    .trigger(Trigger.Once())
-    .trigger(Trigger.AvailableNow())
-//    .queryName("simple_transform")
-    .format("console")
-    .outputMode("append")
-    .start()
+//  val simpleTransform = streaming.withColumn("stairs", expr("gt like '%stairs%'"))
+//    .where("stairs")
+//    .where("gt is not null")
+//    .select("gt", "model", "arrival_time", "creation_time")
+//    .writeStream
+////    .trigger(Trigger.ProcessingTime("30 seconds"))
+////    .trigger(Trigger.Once())
+//    .trigger(Trigger.AvailableNow())
+////    .queryName("simple_transform")
+//    .format("console")
+//    .outputMode("append")
+//    .start()
 
   /*
   *Aggregation
@@ -97,6 +109,6 @@ object ActivityTrackingStream extends App {
 
 
 //  deviceModelStats.awaitTermination()
-  simpleTransform.awaitTermination()
+//  simpleTransform.awaitTermination()
 //  activityQuery.awaitTermination()
 }
