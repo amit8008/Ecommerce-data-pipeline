@@ -50,6 +50,11 @@ object ActivityTrackingStreamEventTime extends App {
 
   /*
   Tumbling Windows
+  root
+ |-- window: struct (nullable = false)
+ |    |-- start: timestamp (nullable = true)
+ |    |-- end: timestamp (nullable = true)
+ |-- count: long (nullable = false)
    */
 //  val eventsPerWindowTumbling =
 //    withEventTime
@@ -67,6 +72,11 @@ object ActivityTrackingStreamEventTime extends App {
 
   /*
   Sliding Windows
+  root
+ |-- window: struct (nullable = false)
+ |    |-- start: timestamp (nullable = true)
+ |    |-- end: timestamp (nullable = true)
+ |-- count: long (nullable = false)
    */
   val eventsPerWindowSliding =
     withEventTime
