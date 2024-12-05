@@ -31,10 +31,11 @@ object ActivityTrackingStreamEventTime extends App {
   static.printSchema()
 
   static
-    .select(col("Creation_Time"), col("Arrival_Time"))
+    .select(col("Creation_Time"), col("Arrival_Time"), col("User"))
     .withColumn("Creation_timestamp", (col("Creation_Time")/1e9).cast("timestamp"))
     .withColumn("Arrival_timestamp", to_timestamp(from_unixtime(col("Arrival_Time")/1000)))
-      .show(false)
+    .where(col("User") === "g")
+    .show(300, truncate = false)
 //      .printSchema()
 
 
@@ -50,15 +51,36 @@ object ActivityTrackingStreamEventTime extends App {
   /*
   Tumbling Windows
    */
-  val eventsPerWindowTumbling =
-    withEventTime.groupBy(window(col("event_time"), "10 minutes"), col("User")).count()
-      .writeStream
-//    .queryName("events_per_window_tumbling")
-    .format("console")
-    .option("truncate", "false") // to show complete trigger output
-    .outputMode("complete")
-    .start()
+//  val eventsPerWindowTumbling =
+//    withEventTime
+//      .groupBy(window(col("event_time"), "10 minutes"), col("User")).count()
+//      .where(col("User") === "g")
+//      .orderBy(col("window.start"))
+//      .writeStream
+////    .queryName("events_per_window_tumbling")
+//    .format("console")
+//    .option("truncate", "false") // to show complete trigger output
+//    .outputMode("complete")
+//    .start()
+//
+//  eventsPerWindowTumbling.awaitTermination()
 
-  eventsPerWindowTumbling.awaitTermination()
+  /*
+  Sliding Windows
+   */
+  val eventsPerWindowSliding =
+    withEventTime
+      .groupBy(window(col("event_time"), "10 minutes", "5 minutes"), col("User"))
+      .count()
+      .where(col("User") === "g")
+      .orderBy(col("window.start"))
+      .writeStream
+      //    .queryName("events_per_window_sliding")
+      .format("console")
+      .option("truncate", "false") // to show complete trigger output
+      .outputMode("complete")
+      .start()
+
+  eventsPerWindowSliding.awaitTermination()
 
 }
