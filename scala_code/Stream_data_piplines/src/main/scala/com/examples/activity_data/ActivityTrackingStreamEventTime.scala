@@ -13,6 +13,7 @@ object ActivityTrackingStreamEventTime extends App {
     .master("local[*]")
     .config("spark.sql.shuffle.partition","5")
     .config("spark.sql.streaming.schemaInference", "true")
+    .config("spark.sql.streaming.checkpointLocation","C:\\Users\\amit8\\AppData\\Local\\Temp")
     .getOrCreate()
 
   /**
@@ -78,19 +79,40 @@ object ActivityTrackingStreamEventTime extends App {
  |    |-- end: timestamp (nullable = true)
  |-- count: long (nullable = false)
    */
-  val eventsPerWindowSliding =
+//  val eventsPerWindowSliding =
+//    withEventTime
+//      .groupBy(window(col("event_time"), "10 minutes", "5 minutes"), col("User"))
+//      .count()
+//      .where(col("User") === "g")
+//      .orderBy(col("window.start"))
+//      .writeStream
+//      //    .queryName("events_per_window_sliding")
+//      .format("console")
+//      .option("truncate", "false") // to show complete trigger output
+//      .outputMode("complete")
+//      .start()
+//
+//  eventsPerWindowSliding.awaitTermination()
+
+  /*
+  Watermarks to handle late data
+
+   */
+  val eventsPerWindowWithWatermarks =
     withEventTime
+      .withWatermark("event_time", "5 hours")
       .groupBy(window(col("event_time"), "10 minutes", "5 minutes"), col("User"))
       .count()
       .where(col("User") === "g")
       .orderBy(col("window.start"))
       .writeStream
-      //    .queryName("events_per_window_sliding")
-      .format("console")
-      .option("truncate", "false") // to show complete trigger output
+      .format("Console")
+      .option("truncate", "false")
       .outputMode("complete")
       .start()
 
-  eventsPerWindowSliding.awaitTermination()
+  eventsPerWindowWithWatermarks.awaitTermination()
+
+
 
 }
