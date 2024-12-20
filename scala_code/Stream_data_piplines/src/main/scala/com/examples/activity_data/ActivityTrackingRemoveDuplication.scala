@@ -32,7 +32,7 @@ object ActivityTrackingRemoveDuplication extends App {
 
   val dropDuplicationFromEvenTime = withEvenTime
     .withWatermark("event_time", "30 minutes")
-    .dropDuplicates("User", "event_time")
+//    .dropDuplicates("User", "event_time")
     .groupBy("User")
     .count()
     .where(col("User") === "g")
