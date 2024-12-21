@@ -5,7 +5,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.streaming.{GroupState, GroupStateTimeout}
 
-object mapGroupsWithStateArbitraryStatefulProcessing extends App {
+object mapGroupsWithStateExample1 extends App {
   /**
    * example of stateful processing uses a feature called mapGroupsWithState.
    * This is similar to a user-defined aggregation function that takes as input an update set of data and
