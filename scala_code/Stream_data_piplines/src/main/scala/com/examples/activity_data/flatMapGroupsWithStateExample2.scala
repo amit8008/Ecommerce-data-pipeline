@@ -5,7 +5,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.streaming.{GroupState, GroupStateTimeout, OutputMode}
 
-object mapGroupsWithStateExample2 extends App {
+object flatMapGroupsWithStateExample2 extends App {
 
   /**
    * This example analyzes the activity dataset from this chapter and
