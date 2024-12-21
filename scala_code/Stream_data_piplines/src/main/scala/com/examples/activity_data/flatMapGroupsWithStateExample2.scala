@@ -76,7 +76,7 @@ object flatMapGroupsWithStateExample2 extends App {
 
   import spark.implicits._
 
-  val mapGroupsWithStateStatefulStreaming2 = withEventTime
+  val flatMapGroupsWithStateStatefulStreaming2 = withEventTime
     .selectExpr("Device as device",
       "cast(Creation_Time/1000000000 as timestamp) as timestamp",
       "x")
@@ -92,5 +92,5 @@ object flatMapGroupsWithStateExample2 extends App {
     .start()
 
 
-  mapGroupsWithStateStatefulStreaming2.awaitTermination()
+  flatMapGroupsWithStateStatefulStreaming2.awaitTermination()
 }
