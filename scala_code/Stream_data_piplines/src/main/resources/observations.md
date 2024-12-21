@@ -213,3 +213,42 @@ Batch: 1
 ```
 
 No Duplicate data
+
+### Sessionization
+result:
+```
+-------------------------------------------
+Batch: 0
+-------------------------------------------
++---+-----------------------------------+----------------------+
+|uid|activities                         |xAvg                  |
++---+-----------------------------------+----------------------+
+|g  |[stand, null, sit]                 |9.503131068931047E-4  |
+|g  |[sit, null, walk]                  |-0.003911539594705299 |
+|g  |[walk, null, stairsup, stairsdown] |0.006775755819180794  |
+|g  |[stairsup, stairsdown, null, stand]|-0.0063115139855144855|
+|g  |[stand, null, bike]                |-0.005008800345454542 |
+|g  |[null, bike, sit]                  |0.009768445289510473  |
+|g  |[null, walk]                       |-0.008306115820179816 |
+|g  |[walk, null, stairsup, stairsdown] |-0.04473407478381612  |
+|g  |[stairsup, stairsdown, null, bike] |0.014556457469030979  |
+|f  |[stand, null, sit]                 |-0.0023608441174825163|
+|f  |[sit, null, walk]                  |-0.004913223305294707 |
+|f  |[walk, null, stairsup, stairsdown] |0.0160425360928072    |
+|f  |[stairsup, stairsdown, null]       |0.003396947798301696  |
+|f  |[null, bike, stand]                |-0.014037704957042948 |
+|f  |[bike, stand, null, sit]           |-0.004087968191908097 |
+|f  |[sit, null, walk, stairsup]        |-0.00771486496063937  |
+|f  |[stairsup, stairsdown]             |0.0205320343027972    |
+|f  |[stairsdown, null, bike]           |-0.014745645214985002 |
+|e  |[stand, null, sit]                 |0.0011748657809190757 |
+|e  |[sit, null, walk]                  |0.004898909663736261  |
++---+-----------------------------------+----------------------+
+only showing top 20 rows
+```
+
+Getting error
+```
+24/12/21 19:26:59 ERROR Utils: Aborting task
+java.lang.IllegalArgumentException: Timeout timestamp (1424688233181) cannot be earlier than the current watermark (1424789505905)
+```
