@@ -5,22 +5,22 @@ from faker import Faker
 fake = Faker()
 
 
-def generate_fake_seller(output_type: str = "raw"):
+def generate_fake_seller(output_type: str = "raw") :
     seller_name = fake.name().capitalize()
     # product_id = fake.uuid4()
     seller_id = random.randint(1000, 9999)
     seller_location = fake.city() + ", " + fake.country()
 
-    if output_type == "dict":
+    if output_type == "dict" :
         return {
             "seller_id" :seller_id,
             "seller_name" :seller_name,
             "seller_location" :seller_location
         }
-    elif output_type == "list":
+    elif output_type == "list" :
         return [seller_id, seller_name, seller_location]
 
-    else:
+    else :
         return f"{seller_id}, {seller_name}, {seller_location}"
 
 
@@ -39,4 +39,3 @@ print(json.dumps(fake_seller[:2], indent = 4))
 
 fake_seller1 = generate_fake_seller()
 print(fake_seller1)
-

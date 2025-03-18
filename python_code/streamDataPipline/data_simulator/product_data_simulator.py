@@ -5,7 +5,7 @@ from faker import Faker
 fake = Faker()
 
 
-def generate_fake_product(output_type: str = "raw"):
+def generate_fake_product(output_type: str = "raw") :
     categories = {
         "Electronics" :["Smartphone", "Laptop", "Smart TV", "Headphones", "Camera"],
         "Clothing" :["T-Shirt", "Jeans", "Jacket", "Shoes", "Dress"],
@@ -39,7 +39,7 @@ def generate_fake_product(output_type: str = "raw"):
     tags = random.sample(["Trending", "New", "Bestseller", "Budget-friendly", "Premium", "Limited Edition"],
                          random.randint(2, 4))
 
-    if output_type == "dict":
+    if output_type == "dict" :
         return {
             "product_id" :product_id,
             "product_name" :product_name,
@@ -64,10 +64,12 @@ def generate_fake_product(output_type: str = "raw"):
             "last_updated" :last_updated,
             "tags" :tags
         }
-    elif output_type == "list":
-        return [product_id, product_name, category, brand, price, discount, stock_quantity, stock_status, color, size, weight, material, rating, num_reviews, seller_id, seller_name, seller_location, shipping_cost, delivery_time, created_date, last_updated, tags]
+    elif output_type == "list" :
+        return [product_id, product_name, category, brand, price, discount, stock_quantity, stock_status, color, size,
+                weight, material, rating, num_reviews, seller_id, seller_name, seller_location, shipping_cost,
+                delivery_time, created_date, last_updated, tags]
 
-    else:
+    else :
         return f"{product_id}, {product_name}, {category}, {brand}, {price}, {discount}, {stock_quantity}, {stock_status}, {color}, {size}, {weight}, {material}, {rating}, {num_reviews}, {seller_id}, {seller_name}, {seller_location}, {shipping_cost}, {delivery_time}, {created_date}, {last_updated}, {"|".join(tags)}"
 
 
@@ -86,4 +88,3 @@ print(json.dumps(fake_products[:2], indent = 4))
 
 fake_products1 = generate_fake_product()
 print(fake_products1)
-
