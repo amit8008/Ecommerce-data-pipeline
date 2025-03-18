@@ -71,10 +71,6 @@ def generate_fake_product(output_type: str = "raw"):
         return f"{product_id}, {product_name}, {category}, {brand}, {price}, {discount}, {stock_quantity}, {stock_status}, {color}, {size}, {weight}, {material}, {rating}, {num_reviews}, {seller_id}, {seller_name}, {seller_location}, {shipping_cost}, {delivery_time}, {created_date}, {last_updated}, {"|".join(tags)}"
 
 
-
-
-
-
 # Generate multiple fake products
 num_products = 3
 fake_products = [generate_fake_product("dict") for _ in range(num_products)]
