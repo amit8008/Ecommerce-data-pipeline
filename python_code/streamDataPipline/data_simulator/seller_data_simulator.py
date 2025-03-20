@@ -52,3 +52,5 @@ print(fake_seller1)
 # df = pd.DataFrame(data = fake_seller)
 
 # print(df)
+
+# TODO: write a Function to generate seller data with number of seller, file formate and file path
