@@ -1,10 +1,11 @@
 import random
 import json
 from faker import Faker
+import pandas as pd
 
 fake = Faker()
 
-
+resource_loc = "C:\\Users\\Public\\Documents\\Stream-data-pipelines\\python_code\\streamDataPipline\\resources\\"
 def generate_fake_product(output_type: str = "raw") :
     categories = {
         "Electronics" :["Smartphone", "Laptop", "Smart TV", "Headphones", "Camera"],
@@ -28,10 +29,11 @@ def generate_fake_product(output_type: str = "raw") :
     material = random.choice(["Plastic", "Metal", "Wood", "Cotton", "Leather"])
     rating = round(random.uniform(1, 5), 1)  # Random rating between 1-5
     num_reviews = random.randint(0, 5000)  # Random number of reviews
-    # seller_id = fake.uuid4()
-    seller_id = random.randint(0, 5000000)
-    seller_name = fake.company()
-    seller_location = fake.city() + ", " + fake.country()
+    # write a function to fetch the seller id from seller data or create seller data and get seller id from this
+    seller_df = pd.read_json(resource_loc + "fake_seller2.json", orient='records')
+    seller_ids = seller_df['seller_id'].tolist()
+    # print(f"this is seller ids {seller_ids}")
+    seller_id = random.choice(seller_ids)
     shipping_cost = random.choice([0, 50, 100, 200])  # Free or fixed cost
     delivery_time = random.choice(["Same-day", "2-5 days", "7+ days"])
     created_date = fake.date_time_this_year().isoformat()
@@ -74,7 +76,7 @@ def generate_fake_product(output_type: str = "raw") :
 
 
 # Generate multiple fake products
-num_products = 3
+num_products = 6
 fake_products = [generate_fake_product("dict") for _ in range(num_products)]
 
 # Save to JSON file
