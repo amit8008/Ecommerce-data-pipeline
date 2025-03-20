@@ -1,10 +1,10 @@
 import random
 import json
 from faker import Faker
+from main import configuration
 
 fake = Faker()
 
-resource_loc = "C:\\Users\\Public\\Documents\\Stream-data-pipelines\\python_code\\streamDataPipline\\resources\\"
 
 def generate_fake_customer(output_type: str = "raw") :
     # seller_id = fake.uuid4()
@@ -31,7 +31,7 @@ num_products = 3
 fake_customer = [generate_fake_customer("dict") for _ in range(num_products)]
 
 # Save to JSON file
-with open( resource_loc + "fake_custmomer1.json", "w") as f :
+with open(configuration.resources_path + "fake_custmomer1.json", "w") as f :
     json.dump(fake_customer, f, indent = 4)
 
 # Print a sample product

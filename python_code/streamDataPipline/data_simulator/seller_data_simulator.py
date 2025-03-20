@@ -2,10 +2,9 @@ import random
 import json
 from faker import Faker
 import pandas as pd
+from main import configuration
 
 fake = Faker()
-
-resource_loc = "C:\\Users\\Public\\Documents\\Stream-data-pipelines\\python_code\\streamDataPipline\\resources\\"
 
 
 def generate_fake_seller(output_type: str = "raw") :
@@ -28,13 +27,13 @@ def generate_fake_seller(output_type: str = "raw") :
 
 
 # Generate multiple fake products
-num_products = 3
-fake_seller = [generate_fake_seller("dict") for _ in range(num_products)]
+num_seller = 5
+fake_seller = [generate_fake_seller("dict") for _ in range(num_seller)]
 
 # Save to JSON file with pandas
 df = pd.DataFrame(data = fake_seller)
 
-df.to_json(resource_loc + "fake_seller2.json", orient = "records", indent = 4)
+df.to_json(configuration.resources_path + "fake_seller1.json", orient = "records", indent = 4)
 
 # Print a sample product
 print(json.dumps(fake_seller[:2], indent = 4))
