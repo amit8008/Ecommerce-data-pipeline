@@ -32,7 +32,7 @@ num_products = 3
 fake_customer = [generate_fake_customer("dict") for _ in range(num_products)]
 
 # Save to JSON file
-with open(configuration.resources_path + "fake_custmomer1.json", "w") as f :
+with open(configuration.data_dir + "fake_custmomer1.json", "w") as f :
     json.dump(fake_customer, f, indent = 4)
 
 # Print a sample product

@@ -34,7 +34,7 @@ fake_seller = [generate_fake_seller("dict") for _ in range(num_seller)]
 # Save to JSON file with pandas
 df = pd.DataFrame(data = fake_seller)
 
-df.to_json(configuration.resources_path + "fake_seller1.json", orient = "records", indent = 4)
+df.to_json(configuration.data_dir + "fake_seller1.json", orient = "records", indent = 4)
 
 # Print a sample product
 logger.debug(json.dumps(fake_seller[:2], indent = 4))

@@ -7,7 +7,7 @@ from src.utility.logger import logger
 
 fake = Faker()
 
-seller_df = pd.read_json(configuration.resources_path + "fake_seller1.json", orient = 'records')
+seller_df = pd.read_json(configuration.data_dir + "fake_seller1.json", orient = 'records')
 seller_ids = seller_df['seller_id'].tolist()
 # logger.debug(seller_ids)
 
@@ -82,7 +82,7 @@ fake_products = [generate_fake_product("dict") for _ in range(num_products)]
 # Save to JSON file
 df = pd.DataFrame(data = fake_products)
 
-df.to_json(configuration.resources_path + "fake_products1.json", orient = "records", indent = 4)
+df.to_json(configuration.data_dir + "fake_products1.json", orient = "records", indent = 4)
 
 # Print a sample product
 logger.info(json.dumps(fake_products[:2], indent = 4))
