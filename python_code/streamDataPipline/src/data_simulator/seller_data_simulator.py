@@ -13,7 +13,7 @@ def generate_fake_seller(output_type: str = "raw", delimiter = "|") :
     seller_id = random.randint(1000, 9999)
     seller_location = fake.city() + ", " + fake.country()
 
-    if output_type == "dict" :
+    if output_type == "json" :
         return {
             "seller_id" :seller_id,
             "seller_name" :seller_name,
@@ -30,7 +30,7 @@ def generate_fake_seller(output_type: str = "raw", delimiter = "|") :
 num_seller = 3
 
 # Save to JSON file with pandas
-fake_seller_json = [generate_fake_seller("dict") for _ in range(num_seller)]
+fake_seller_json = [generate_fake_seller(output_type = "json") for _ in range(num_seller)]
 # df_json = pd.DataFrame(data = fake_seller_json)
 # df_json.to_json(configuration.data_dir + "fake_seller1.json", orient = "records", indent = 4)
 

@@ -48,7 +48,7 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
     tags = random.sample(["Trending", "New", "Bestseller", "Budget-friendly", "Premium", "Limited Edition"],
                          random.randint(2, 4))
 
-    if output_type == "dict" :
+    if output_type == "json" :
         return {
             "product_id" :product_id,
             "product_name" :product_name,
@@ -82,7 +82,7 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
 
 # Generate multiple fake products
 # num_products = 4
-# fake_products = [fake_product("dict") for _ in range(num_products)]
+# fake_products = [fake_product(output_type = "json") for _ in range(num_products)]
 
 # Save to JSON file
 # df = pd.DataFrame(data = fake_products)
