@@ -12,6 +12,7 @@ config = load_config()
 # database_config = config["database"]
 # api_config = config["api"]
 data_dir = config["data"]["dir"]
+kafka_config = config["kafka"]
 
 # # You can also make individual values directly accessible:
 # database_host = config["database"]["host"]
