@@ -1,7 +1,7 @@
 import random
 import json
 from faker import Faker
-from main import configuration
+from src.utility import configuration
 
 fake = Faker()
 

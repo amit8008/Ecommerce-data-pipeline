@@ -2,7 +2,7 @@ import random
 import json
 from faker import Faker
 import pandas as pd
-from main import configuration
+from src.utility import configuration
 
 fake = Faker()
 
@@ -27,7 +27,7 @@ def generate_fake_seller(output_type: str = "raw") :
 
 
 # Generate multiple fake products
-num_seller = 5
+num_seller = 10
 fake_seller = [generate_fake_seller("dict") for _ in range(num_seller)]
 
 # Save to JSON file with pandas
