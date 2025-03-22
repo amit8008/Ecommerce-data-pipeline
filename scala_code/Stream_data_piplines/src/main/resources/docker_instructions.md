@@ -42,10 +42,12 @@ doker exec -it <container_id> bash
 ```
 list kafka topics  
 ```shell
+cd /bin/
 kafka-topics --bootstrap-server=localhost:9092 --list
 ```
 Create kafka-topics
 ```shell
+cd /bin/
 kafka-topics --create --topic Ecommerce-seller_events --bootstrap-server localhost:9092 --partitions 1
 ```
 
@@ -58,12 +60,12 @@ pip install confluent-kafka
 open kafka producer in one terminal
 ```shell
 cd /bin/
- kafka-console-producer --bootstrap-server=localhost:9092 --topic my-topic
+kafka-console-producer --bootstrap-server=localhost:9092 --topic my-topic
 ```
 open kafka consumer in other terminal
 ```shell
 cd /bin/
-kafka-console-consumer --bootstrap-server=localhost:9092 --topic my-topic --from-beginning
+kafka-console-consumer --bootstrap-server=localhost:9092 --topic Ecommerce-seller_events --from-beginning
 ```
 
 open kafka consumer in other terminal

@@ -29,11 +29,13 @@ seller_data = configuration.data_dir + "fake_seller1.json"
 producer = Producer(conf)
 
 # function to generate and produce the data to kafka topic
-num_seller = 3
+num_seller = 5
 for _ in range(num_seller):
-    fake_seller = seller_data_simulator.generate_fake_seller(output_type = "tuple")
-    producer.produce(topic, key = fake_seller[0], value = fake_seller, callback = acked)
-    time.sleep(random.uniform(0.01, 0.1))
+    fake_seller = seller_data_simulator.generate_fake_seller()
+    key = fake_seller.split("|")[0]
+    print(key, type(key))
+    producer.produce(topic, key = key, value = fake_seller, callback = acked)
+    time.sleep(5)
 
 # Wait up to 1 second for events. Callbacks will be invoked during
 # this method call if the message is acknowledged.
