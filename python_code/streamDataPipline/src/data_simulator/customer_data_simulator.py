@@ -2,6 +2,7 @@ import random
 import json
 from faker import Faker
 from src.utility import configuration
+from src.utility.logger import logger
 
 fake = Faker()
 
@@ -35,7 +36,7 @@ with open(configuration.resources_path + "fake_custmomer1.json", "w") as f :
     json.dump(fake_customer, f, indent = 4)
 
 # Print a sample product
-print(json.dumps(fake_customer[:2], indent = 4))
+logger.debug(json.dumps(fake_customer[:2], indent = 4))
 
 fake_customer1 = generate_fake_customer()
-print(fake_customer1)
+logger.info(fake_customer1)

@@ -3,19 +3,18 @@ import json
 from faker import Faker
 import pandas as pd
 from src.utility import configuration
+from src.utility.logger import logger
 
 fake = Faker()
 
 # Load product, customer
 product_df = pd.read_json(configuration.resources_path + "fake_products1.json", orient = 'records')
 product_ids = product_df['product_id'].tolist()
-# print(product_ids)
+# logger.debug(product_ids)
 
 customer_df = pd.read_json(configuration.resources_path + "fake_custmomer1.json", orient = 'records')
 customer_ids = customer_df['customer_id'].tolist()
-
-
-# print(customer_ids)
+# logger.debug(customer_ids)
 
 def generate_fake_order(output_type: str = "raw") :
     order_id = random.randint(1000, 9999)

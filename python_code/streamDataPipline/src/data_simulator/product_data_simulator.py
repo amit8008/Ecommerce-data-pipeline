@@ -3,12 +3,13 @@ import json
 from faker import Faker
 import pandas as pd
 from src.utility import configuration
+from src.utility.logger import logger
 
 fake = Faker()
 
 seller_df = pd.read_json(configuration.resources_path + "fake_seller1.json", orient = 'records')
 seller_ids = seller_df['seller_id'].tolist()
-# print(seller_ids)
+# logger.debug(seller_ids)
 
 
 def generate_fake_product(output_type: str = "raw") :
@@ -84,5 +85,5 @@ df = pd.DataFrame(data = fake_products)
 df.to_json(configuration.resources_path + "fake_products1.json", orient = "records", indent = 4)
 
 # Print a sample product
-print(json.dumps(fake_products[:2], indent = 4))
+logger.info(json.dumps(fake_products[:2], indent = 4))
 
