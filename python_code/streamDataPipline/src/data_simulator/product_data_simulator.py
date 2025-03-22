@@ -2,17 +2,22 @@ import random
 import json
 from faker import Faker
 import pandas as pd
+import os
+
+from pandas import DataFrame
+
+from src.data_simulator.seller_data_simulator import generate_fake_seller
 from src.utility import configuration
 from src.utility.logger import logger
 
 fake = Faker()
 
-seller_df = pd.read_json(configuration.data_dir + "fake_seller1.json", orient = 'records')
-seller_ids = seller_df['seller_id'].tolist()
+# seller_df = pd.read_json(configuration.data_dir + "fake_seller1.json", orient = 'records')
+# seller_ids = seller_df['seller_id'].tolist()
 # logger.debug(seller_ids)
 
 
-def generate_fake_product(output_type: str = "raw") :
+def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str = "|") :
     categories = {
         "Electronics" :["Smartphone", "Laptop", "Smart TV", "Headphones", "Camera"],
         "Clothing" :["T-Shirt", "Jeans", "Jacket", "Shoes", "Dress"],
@@ -35,7 +40,7 @@ def generate_fake_product(output_type: str = "raw") :
     material = random.choice(["Plastic", "Metal", "Wood", "Cotton", "Leather"])
     rating = round(random.uniform(1, 5), 1)  # Random rating between 1-5
     num_reviews = random.randint(0, 5000)  # Random number of reviews
-    seller_id = random.choice(seller_ids)
+    seller_id = random.choice(seller_df.iloc[:,0].tolist())
     shipping_cost = random.choice([0, 50, 100, 200])  # Free or fixed cost
     delivery_time = random.choice(["Same-day", "2-5 days", "7+ days"])
     created_date = fake.date_time_this_year().isoformat()
@@ -66,24 +71,51 @@ def generate_fake_product(output_type: str = "raw") :
             "last_updated" :last_updated,
             "tags" :tags
         }
-    elif output_type == "list" :
-        return [product_id, product_name, category, brand, price, discount, stock_quantity, stock_status, color, size,
+    elif output_type == "tuple" :
+        return (product_id, product_name, category, brand, price, discount, stock_quantity, stock_status, color, size,
                 weight, material, rating, num_reviews, seller_id, shipping_cost,
-                delivery_time, created_date, last_updated, tags]
+                delivery_time, created_date, last_updated, tags)
 
     else :
-        return f"{product_id}, {product_name}, {category}, {brand}, {price}, {discount}, {stock_quantity}, {stock_status}, {color}, {size}, {weight}, {material}, {rating}, {num_reviews}, {seller_id}, {shipping_cost}, {delivery_time}, {created_date}, {last_updated}, {"|".join(tags)}"
+        return f"{product_id}{delimiter}{product_name}{delimiter}{category}{delimiter}{brand}{delimiter}{price}{delimiter}{discount}{delimiter}{stock_quantity}{delimiter}{stock_status}{delimiter}{color}{delimiter}{size}{delimiter}{weight}{delimiter}{material}{delimiter}{rating}{delimiter}{num_reviews}{delimiter}{seller_id}{delimiter}{shipping_cost}{delimiter}{delivery_time}{delimiter}{created_date}{delimiter}{last_updated}{delimiter}{",".join(tags)}"
 
 
 # Generate multiple fake products
-num_products = 3
-fake_products = [generate_fake_product("dict") for _ in range(num_products)]
+# num_products = 4
+# fake_products = [fake_product("dict") for _ in range(num_products)]
 
 # Save to JSON file
-df = pd.DataFrame(data = fake_products)
+# df = pd.DataFrame(data = fake_products)
 
-df.to_json(configuration.data_dir + "fake_products1.json", orient = "records", indent = 4)
+# df.to_json(configuration.data_dir + "fake_products1.json", orient = "records", indent = 4)
 
 # Print a sample product
-logger.info(json.dumps(fake_products[:2], indent = 4))
+# logger.info(json.dumps(fake_products[:2], indent = 4))
+
+
+def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_count:int = 5) :
+    if not os.path.exists(seller_data_path) :
+        logger.info(f"File not found at {seller_data_path}")
+        logger.info(f"Creating {seller_count} seller as per seller_count configured, 2 is default")
+        seller_df = pd.DataFrame(data = [generate_fake_seller("tuple") for _ in range(seller_count)])
+    else:
+        if seller_data_path.endswith("json"):
+            logger.info(f"File found at {seller_data_path}")
+            seller_df = pd.read_json(seller_data_path,  orient = "records")
+        else:
+            logger.info(f"File found at {seller_data_path}")
+            seller_df = pd.read_csv(seller_data_path,  sep = "|")
+
+    logger.info(f"Creating {product_count} product as per product_count configured, 5 is default")
+    logger.info(f"\n{seller_df}")
+    return [fake_product(seller_df = seller_df) for _ in range(product_count)]
+
+
+# result_2_5 = generate_fake_product("")
+# logger.info(result_2_5)
+
+
+result_json_5 = generate_fake_product(configuration.data_dir + "fake_seller1.json")
+logger.info(result_json_5)
+
 
