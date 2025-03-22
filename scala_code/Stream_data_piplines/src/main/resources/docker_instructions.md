@@ -48,6 +48,13 @@ Create kafka-topics
 ```shell
 kafka-topics --create --topic Ecommerce-seller_events --bootstrap-server localhost:9092 --partitions 1
 ```
+
+### python setup for kafka producer
+~~pip install kafka-python-ng~~
+```shell
+pip install confluent-kafka
+```
+
 open kafka producer in one terminal
 ```shell
 cd /bin/
@@ -65,12 +72,7 @@ cd /bin/
 kafka-console-consumer --bootstrap-server localhost:9092 --topic my-topic --formatter kafka.tools.DefaultMessageFormatter --property print.offset=true --property print.timestamp=true --property print.key=true --property print.value=true --from-beginning
 ```
 
-### python setup for kafka producer
-```python
-pip install kafka-python-ng
 
-python kafka_producer_001.py
-```
 
 ## Spark in docker
 
