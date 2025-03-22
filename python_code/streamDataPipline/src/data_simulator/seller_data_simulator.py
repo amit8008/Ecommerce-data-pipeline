@@ -8,9 +8,8 @@ from src.utility.logger import logger
 fake = Faker()
 
 
-def generate_fake_seller(output_type: str = "raw") :
+def generate_fake_seller(output_type: str = "csv", delimiter = "|") :
     seller_name = fake.name().capitalize()
-    # product_id = fake.uuid4()
     seller_id = random.randint(1000, 9999)
     seller_location = fake.city() + ", " + fake.country()
 
@@ -20,27 +19,34 @@ def generate_fake_seller(output_type: str = "raw") :
             "seller_name" :seller_name,
             "seller_location" :seller_location
         }
-    elif output_type == "list" :
-        return [seller_id, seller_name, seller_location]
+    elif output_type == "tuple":
+        return seller_id, seller_name, seller_location
 
     else :
-        return f"{seller_id}, {seller_name}, {seller_location}"
+        return f"{seller_id}{delimiter}{seller_name}{delimiter}{seller_location}"
 
 
 # Generate multiple fake products
-num_seller = 5
-fake_seller = [generate_fake_seller("dict") for _ in range(num_seller)]
+num_seller = 3
 
 # Save to JSON file with pandas
-df = pd.DataFrame(data = fake_seller)
-
-df.to_json(configuration.data_dir + "fake_seller1.json", orient = "records", indent = 4)
+fake_seller_json = [generate_fake_seller("dict") for _ in range(num_seller)]
+df_json = pd.DataFrame(data = fake_seller_json)
+df_json.to_json(configuration.data_dir + "fake_seller1.json", orient = "records", indent = 4)
 
 # Print a sample product
-logger.debug(json.dumps(fake_seller[:2], indent = 4))
+logger.debug(json.dumps(fake_seller_json[:2], indent = 4))
 
-fake_seller1 = generate_fake_seller()
-logger.info(fake_seller1)
+# Generating pandas dataframe from list of tuples
+fake_seller_tuple = [generate_fake_seller("tuple") for _ in range(num_seller)]
+df_tuple = pd.DataFrame(data = fake_seller_tuple)
+logger.info(f"\n{df_tuple}")
+fake_seller1 = generate_fake_seller("tuple")
+logger.info(f"{fake_seller1[0]} | {fake_seller1[1]} | {fake_seller1[2]}")
+
+# Generating tab delimited data
+fake_seller2 = generate_fake_seller()
+logger.info(f"{fake_seller2}")
 
 # a = []
 # d = {'col1':1, 'col2':4}
