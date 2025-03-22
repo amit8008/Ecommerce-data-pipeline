@@ -35,9 +35,18 @@ services:
 ```
 
 ### common commands for kafka consumer and producers 
+
 open kafka broker to run producer and consumer in different terminal
 ```shell
 doker exec -it <container_id> bash
+```
+list kafka topics  
+```shell
+kafka-topics --bootstrap-server=localhost:9092 --list
+```
+Create kafka-topics
+```shell
+kafka-topics --create --topic Ecommerce-seller_events --bootstrap-server localhost:9092 --partitions 1
 ```
 open kafka producer in one terminal
 ```shell
