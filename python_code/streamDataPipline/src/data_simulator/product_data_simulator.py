@@ -6,7 +6,7 @@ import os
 
 from pandas import DataFrame
 
-from src.data_simulator.seller_data_simulator import generate_fake_seller
+# from src.data_simulator import seller_data_simulator
 from src.utility import configuration
 from src.utility.logger import logger
 
@@ -93,11 +93,11 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
 # logger.info(json.dumps(fake_products[:2], indent = 4))
 
 
-def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_count:int = 5) :
+def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_count: int = 5, file_format: str = "json") :
     if not os.path.exists(seller_data_path) :
         logger.info(f"File not found at {seller_data_path}")
-        logger.info(f"Creating {seller_count} seller as per seller_count configured, 2 is default")
-        seller_df = pd.DataFrame(data = [generate_fake_seller("tuple") for _ in range(seller_count)])
+        # logger.info(f"Creating {seller_count} seller as per seller_count configured, 2 is default")
+        # seller_df = pd.DataFrame(data = [seller_data_simulator.generate_fake_seller("tuple") for _ in range(seller_count)])
     else:
         if seller_data_path.endswith("json"):
             logger.info(f"File found at {seller_data_path}")
@@ -108,7 +108,7 @@ def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_
 
     logger.info(f"Creating {product_count} product as per product_count configured, 5 is default")
     logger.info(f"\n{seller_df}")
-    return [fake_product(seller_df = seller_df) for _ in range(product_count)]
+    return [fake_product(seller_df = seller_df, output_type = file_format) for _ in range(product_count)]
 
 
 # result_2_5 = generate_fake_product("")
@@ -118,4 +118,30 @@ def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_
 result_json_5 = generate_fake_product(configuration.data_dir + "fake_seller1.json")
 logger.info(result_json_5)
 
+
+# Creating 12 product for testing with postgresql, generate 12 product data created as tuple with delimiter |
+from sqlalchemy import create_engine
+import psycopg2
+
+# 1. Define PostgreSQL connection details
+DB_USER = "myuser"
+DB_PASSWORD = "mypassword"
+DB_HOST = "localhost"   # If using Docker, replace with container name e.g., "postgres_db"
+DB_PORT = "5432"
+DB_NAME = "ecommerce_db"
+
+# 2. Create a connection engine
+engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+
+# 3. Create a sample DataFrame
+product_psql = generate_fake_product(configuration.data_dir + "seller_data_5.tsv", product_count = 12)
+df_product_psql = pd.DataFrame(data = product_psql)
+logger.info(f"\n{df_product_psql}")
+
+# 4a. save DataFrame in csv file
+df_product_psql.to_json(configuration.data_dir + "product_data_12.json", orient = "records", indent = 4)
+# 4b. Load DataFrame into PostgreSQL
+df_product_psql.to_sql("product", engine, if_exists="replace", index=False)
+
+print("Product Data successfully loaded into PostgreSQL!")
 

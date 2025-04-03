@@ -71,7 +71,7 @@ df_seller_psql.to_csv(configuration.data_dir + "seller_data_5.tsv",sep = "|", in
 # 4b. Load DataFrame into PostgreSQL
 df_seller_psql.to_sql("seller", engine, if_exists="replace", index=False)
 
-print("Data successfully loaded into PostgreSQL!")
+print("Seller Data successfully loaded into PostgreSQL!")
 
 
 
