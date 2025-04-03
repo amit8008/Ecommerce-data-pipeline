@@ -1,0 +1,21 @@
+Access PostgreSQL container:
+
+command:
+docker exec -it postgres_db  bash
+psql -U myuser -d ecommerce_db
+
+
+Access MySQL container:
+command:
+docker exec -it mysql_db bash
+mysql -u root -p
+Enter password:<Enter rootpassword>
+
+
+
+
+CREATE TABLE seller (
+    seller_id int,
+    seller_name varchar,
+    seller_location varchar,
+);
