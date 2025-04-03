@@ -67,7 +67,7 @@ seller_psql = [generate_fake_seller("tuple") for _ in range(5)]
 df_seller_psql = pd.DataFrame(data = seller_psql, columns = ["seller_id", "seller_name", "seller_location"])
 
 # 4a. save DataFrame in csv file
-df_seller_psql.to_csv(configuration.data_dir + "seller_data_5.tsv",sep = "|")
+df_seller_psql.to_csv(configuration.data_dir + "seller_data_5.tsv",sep = "|", index = False)
 # 4b. Load DataFrame into PostgreSQL
 df_seller_psql.to_sql("seller", engine, if_exists="replace", index=False)
 
