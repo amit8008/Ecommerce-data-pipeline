@@ -84,3 +84,4 @@ def generate_fake_order(customer_data_path: str, product_data_path: str, custome
     # logger.info(f"Creating {product_count} product as per product_count configured, 2 is default")
     # logger.info(f"\n{seller_df}")
     # return [fake_order(seller_df = seller_df) for _ in range(product_count)]
+
