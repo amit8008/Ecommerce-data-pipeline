@@ -38,7 +38,7 @@ services:
 
 open kafka broker to run producer and consumer in different terminal
 ```shell
-doker exec -it <container_id> bash
+docker exec -it <container_id> bash
 ```
 list kafka topics  
 ```shell
@@ -49,6 +49,7 @@ Create kafka-topics
 ```shell
 cd /bin/
 kafka-topics --create --topic Ecommerce-seller_events --bootstrap-server localhost:9092 --partitions 1
+kafka-topics --create --topic Ecommerce-order_events --bootstrap-server localhost:9092 --partitions 1
 ```
 
 ### python setup for kafka producer
@@ -66,6 +67,7 @@ open kafka consumer in other terminal
 ```shell
 cd /bin/
 kafka-console-consumer --bootstrap-server=localhost:9092 --topic Ecommerce-seller_events --from-beginning
+kafka-console-consumer --bootstrap-server=localhost:9092 --topic Ecommerce-order_events --from-beginning
 ```
 
 open kafka consumer in other terminal
