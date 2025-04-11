@@ -1,6 +1,7 @@
 package com.ecommerce.streaming
 
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.col
 
 object OrderStream extends App {
   val spark = SparkSession
@@ -19,8 +20,15 @@ object OrderStream extends App {
 
   import spark.implicits._
   // Select the value of the Kafka message and cast it to a string
-  val kafkaData = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
-    .as[(String, String)]
+  val kafkaData = df
+    .withColumn("Key_str", col("key").cast("String"))
+    .withColumn("value_str", col("value").cast("String"))
+    .drop("key", "value")
+
+//  val kafkaData = df.selectExpr("key", "value") --- give redundant values
+
+//  val orderStream = kafk
+
 
   // Print the data to the console
   val query = kafkaData.writeStream
