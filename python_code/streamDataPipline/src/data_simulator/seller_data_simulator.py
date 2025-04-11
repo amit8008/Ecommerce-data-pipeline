@@ -51,7 +51,7 @@ df_tuple = pd.DataFrame(data = fake_seller_tuple)
 # logger.debug(f"{fake_seller2}")
 
 # Creating 5 seller for testing with postgresql, generate 5 seller data created as tuple with delimiter |
-def db_ingestion() :
+def seller_db_ingestion() :
     from sqlalchemy import create_engine
     import psycopg2
 
@@ -77,7 +77,7 @@ def db_ingestion() :
     logger.info("Seller Data successfully loaded into PostgreSQL!")
 
 
-db_ingestion()
+# seller_db_ingestion()
 
 # a = []
 # d = {'col1':1, 'col2':4}

@@ -41,36 +41,41 @@ fake_customer = [generate_fake_customer(output_type = "json") for _ in range(num
 #     json.dump(fake_customer, f, indent = 4)
 
 # Print a sample product
-logger.info(json.dumps(fake_customer[:2], indent = 4))
+# logger.info(json.dumps(fake_customer[:2], indent = 4))
 
 # Generating pandas dataframe from list of tuples
 fake_customer_tuple = [generate_fake_customer("tuple") for _ in range(num_customer)]
 df_tuple = pd.DataFrame(data = fake_customer_tuple)
-logger.info(f"\n{df_tuple}")
+# logger.info(f"\n{df_tuple}")
 
 
 # Creating 7 customer for testing with postgresql, generate 7 customer data created as tuple with delimiter |
-from sqlalchemy import create_engine
-import psycopg2
+def customer_db_ingestion():
+    from sqlalchemy import create_engine
+    import psycopg2
 
-# 1. Define PostgreSQL connection details
-DB_USER = "myuser"
-DB_PASSWORD = "mypassword"
-DB_HOST = "localhost"   # If using Docker, replace with container name e.g., "postgres_db"
-DB_PORT = "5432"
-DB_NAME = "ecommerce_db"
+    # 1. Define PostgreSQL connection details
+    DB_USER = "myuser"
+    DB_PASSWORD = "mypassword"
+    DB_HOST = "localhost"  # If using Docker, replace with container name e.g., "postgres_db"
+    DB_PORT = "5432"
+    DB_NAME = "ecommerce_db"
 
-# 2. Create a connection engine
-engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+    # 2. Create a connection engine
+    engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
-# 3. Create a sample DataFrame
-customer_psql = [generate_fake_customer("tuple") for _ in range(7)]
-customer_col = ["customer_id", "customer_name", "customer_phone", "customer_email", "customer_dob", "customer_address"]
-df_customer_psql = pd.DataFrame(data = customer_psql, columns = customer_col)
+    # 3. Create a sample DataFrame
+    customer_psql = [generate_fake_customer("tuple") for _ in range(7)]
+    customer_col = ["customer_id", "customer_name", "customer_phone", "customer_email", "customer_dob",
+                    "customer_address"]
+    df_customer_psql = pd.DataFrame(data = customer_psql, columns = customer_col)
 
-# 4a. save DataFrame in csv file
-df_customer_psql.to_csv(configuration.data_dir + "customer_data_7.tsv",sep = "|", index = False)
-# 4b. Load DataFrame into PostgreSQL
-df_customer_psql.to_sql("customer", engine, if_exists="replace", index=False)
+    # 4a. save DataFrame in csv file
+    df_customer_psql.to_csv(configuration.data_dir + "customer_data_7.tsv", sep = "|", index = False)
+    # 4b. Load DataFrame into PostgreSQL
+    df_customer_psql.to_sql("customer", engine, if_exists = "replace", index = False)
 
-print("Customer Data successfully loaded into PostgreSQL!")
+    print("Customer Data successfully loaded into PostgreSQL!")
+
+
+# customer_db_ingestion()
