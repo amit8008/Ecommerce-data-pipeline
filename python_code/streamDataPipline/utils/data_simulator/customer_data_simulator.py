@@ -1,11 +1,11 @@
 import random
 import json
 from faker import Faker
-from src.utility import configuration
-from src.utility.logger import logger
+from utils.utility import configuration
+from utils.utility.logger import logger
 import pandas as pd
 
-fake = Faker()
+fake = Faker('en_IN')
 
 
 def generate_fake_customer(output_type: str = "raw", delimiter: str = "|") :

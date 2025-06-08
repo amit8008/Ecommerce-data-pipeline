@@ -1,12 +1,14 @@
 import random
 import json
+from datetime import datetime
+
 from faker import Faker
 import pandas as pd
 import os
 
 from pandas import DataFrame
-from src.utility import configuration
-from src.utility.logger import logger
+from utils.utility import configuration
+from utils.utility.logger import logger
 
 fake = Faker()
 
@@ -15,7 +17,8 @@ def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str =
     order_id = random.randint(1000, 9999)
     product_id = random.choice(product_df.iloc[:, 0].tolist())
     customer_id = random.choice(customer_df.iloc[:, 0].tolist())
-    order_time = fake.date_time_this_year().isoformat()
+    # order_time = fake.date_time_this_year().isoformat()
+    order_time = datetime.now()
 
     if output_type == "json" :
         return {
@@ -46,6 +49,7 @@ def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str =
 
 def generate_fake_order(customer_data_path: str, product_data_path: str, file_format: str = "tuple",
                         customer_count: int = 2, product_count: int = 5, order_count: int = 10) :
+    # Looking for customer data
     if not os.path.exists(customer_data_path) :
         logger.info(f"File not found at {customer_data_path}")
         exit(-1)
@@ -59,6 +63,7 @@ def generate_fake_order(customer_data_path: str, product_data_path: str, file_fo
             logger.info(f"File found at {customer_data_path}")
             customer_df = pd.read_csv(customer_data_path, sep = "|")
 
+    # Looking for product data
     if not os.path.exists(product_data_path) :
         logger.info(f"File not found at {product_data_path}")
         exit(-1)
@@ -73,8 +78,9 @@ def generate_fake_order(customer_data_path: str, product_data_path: str, file_fo
             product_df = pd.read_csv(product_data_path, sep = "|")
 
     # logger.info(f"Creating {product_count} product as per product_count configured, 2 is default")
-    logger.debug(f"\n{customer_df}")
-    logger.debug(f"\n{product_df}")
+    # logger.debug(f"\n{customer_df}")
+    # logger.debug(f"\n{product_df}")
+    logger.debug(f"Creating {order_count} orders ")
     return [fake_order(customer_df = customer_df, product_df = product_df, output_type = file_format) for _ in
             range(order_count)]
 
@@ -88,7 +94,7 @@ def adhoc_test() :
         logger.debug(i)
 
 
-# adhoc_test()
+adhoc_test()
 
 # Creating 25 orders for testing with postgresql, generate 25 orders data created as tuple with delimiter |
 def order_db_ingestion() :

@@ -6,9 +6,9 @@ import os
 
 from pandas import DataFrame
 
-# from src.data_simulator import seller_data_simulator
-from src.utility import configuration
-from src.utility.logger import logger
+# from utils.data_simulator import seller_data_simulator
+from utils.utility import configuration
+from utils.utility.logger import logger
 
 fake = Faker()
 

@@ -17,6 +17,7 @@ def acked(err, msg) :
     else :
         print("Message produced: %s" % (str(msg)))
 
+
 # Path to the file
 file_path = "resources/booksDBsales.csv"
 
@@ -24,8 +25,8 @@ file_path = "resources/booksDBsales.csv"
 producer = Producer(conf)
 
 # Produce data line by line from file to topic
-with open(file_path, mode='r', encoding='utf-8') as file:
-    for line in file:
+with open(file_path, mode = 'r', encoding = 'utf-8') as file :
+    for line in file :
         message = line.strip()
         key = line.strip().split("|")[0]
         producer.produce(topic, key = key, value = message, callback = acked)
