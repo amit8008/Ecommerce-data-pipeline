@@ -5,6 +5,8 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{array_contains, col, split}
 import org.apache.spark.storage.StorageLevel
 
+import java.io.File
+
 object OrderStream extends App {
   val spark = SparkSession
     .builder()
@@ -44,7 +46,10 @@ object OrderStream extends App {
     .withColumnRenamed("count", "prod_count")
 
 //  join product count df with product df to get other attributes of product
-  val config = ConfigFactory.load()
+//  val config = ConfigFactory.load()
+  val config = ConfigFactory.parseFile(new File(args(0))).resolve()
+
+  println(args(0))
 
   val productDf = spark.read
     .option("multiline", "true")
@@ -58,11 +63,18 @@ object OrderStream extends App {
     .orderBy("prod_count")
 
   // Print the data to the console
-  val query = joinedDf.writeStream
-//    .outputMode("append")
-        .outputMode("complete") // only use when streaming aggregation is apply on dataframe
-    .format("console")
-    .option("truncate", "false")
+//  val query = joinedDf.writeStream
+////    .outputMode("append")
+//        .outputMode("complete") // only use when streaming aggregation is apply on dataframe
+//    .format("console")
+//    .option("truncate", "false")
+//    .start()
+
+  val query = orderDf
+    .writeStream
+    .format("parquet")
+    .option("checkpointLocation", config.getString("Ecommerce.orderCheckPointLocation"))
+    .option("path", config.getString("Ecommerce.orderFilePath"))
     .start()
 
   query.awaitTermination()

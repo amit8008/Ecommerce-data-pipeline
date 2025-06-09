@@ -1,3 +1,5 @@
+package com.examples
+
 import org.apache.spark.sql.SparkSession
 /**
  * Kafka is running on docker
