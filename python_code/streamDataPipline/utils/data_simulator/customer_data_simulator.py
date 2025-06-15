@@ -55,11 +55,11 @@ def customer_db_ingestion():
     import psycopg2
 
     # 1. Define PostgreSQL connection details
-    DB_USER = "myuser"
-    DB_PASSWORD = "mypassword"
+    DB_USER = "amitsingh"
+    DB_PASSWORD = "amitsingh123"
     DB_HOST = "localhost"  # If using Docker, replace with container name e.g., "postgres_db"
     DB_PORT = "5432"
-    DB_NAME = "ecommerce_db"
+    DB_NAME = "ecommerce"
 
     # 2. Create a connection engine
     engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
@@ -71,11 +71,11 @@ def customer_db_ingestion():
     df_customer_psql = pd.DataFrame(data = customer_psql, columns = customer_col)
 
     # 4a. save DataFrame in csv file
-    df_customer_psql.to_csv(configuration.data_dir + "customer_data_7.tsv", sep = "|", index = False)
+    # df_customer_psql.to_csv(configuration.data_dir + "customer_data_7.tsv", sep = "|", index = False)
     # 4b. Load DataFrame into PostgreSQL
-    df_customer_psql.to_sql("customer", engine, if_exists = "replace", index = False)
+    df_customer_psql.to_sql("customer", engine, if_exists = "append", index = False)
 
     print("Customer Data successfully loaded into PostgreSQL!")
 
 
-# customer_db_ingestion()
+customer_db_ingestion()
