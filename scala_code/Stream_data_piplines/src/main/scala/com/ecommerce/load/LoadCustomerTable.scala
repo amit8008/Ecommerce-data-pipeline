@@ -2,6 +2,7 @@ package com.ecommerce.load
 
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.{col, current_date, lit}
 
 import java.io.File
 
@@ -22,6 +23,7 @@ object LoadCustomerTable extends App {
     .config("spark.sql.defaultCatalog", "local")
     .getOrCreate()
 
+
   val customerDf = spark.read
     .format("jdbc")
     .option("url", "jdbc:postgresql://localhost:5432/ecommerce")
@@ -30,7 +32,38 @@ object LoadCustomerTable extends App {
     .option("password", "amitsingh123")
     .load()
 
-  customerDf.show()
-  customerDf.writeTo("catalog001.ecommerce.customers").create()
+
+// Add metadata columns for SCD Type 2
+  val customerSCD2 = customerDf
+    .withColumn("start_date", current_date())
+    .withColumn("end_date", lit(null).cast("date"))
+    .withColumn("is_active", lit(true))
+
+
+  //  Perform SCD Type 2 merge into Iceberg table
+
+
+  customerSCD2.createOrReplaceTempView("staged")
+  spark.sql(
+    """
+      |MERGE INTO prod01.ecommerce.customers as target
+      |USING staged AS source
+      |ON target.customer_id = source.customer_id AND target.is_active = true
+      |WHEN MATCHED AND (
+      |target.customer_name <> source.customer_name OR
+      |target.customer_email <> source.customer_email OR
+      |target.customer_address <> source.customer_address
+      |)
+      |THEN
+      |UPDATE SET
+      |target.is_active = false,
+      |target.end_date = source.start_date
+      |WHEN NOT MATCHED THEN
+      |INSERT *
+      |""".stripMargin)
+
+
+  //  customerSCD2.writeTo("prod01.ecommerce.customers")
+  //    .append()
 
 }
