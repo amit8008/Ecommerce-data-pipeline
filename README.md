@@ -1,4 +1,4 @@
-\# 🛒 E-Commerce Data Engineering Pipeline
+# 🛒 E-Commerce Data Engineering Pipeline
 
 
 
@@ -10,33 +10,25 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 
 
-\## 🚀 Project Overview
+## 🚀 Project Overview
 
 
 
-\### 🎯 Goals:
+### 🎯 Goals:
 
-\- Ingest customer data from PostgreSQL (batch)
-
-\- Ingest real-time order events from Kafka (streaming)
-
-\- Apply Slowly Changing Dimension (SCD Type 2) to customer data
-
-\- Perform near real-time transformations on orders
-
-\- Store final data in Apache Iceberg for analytics
-
-\- Orchestrate jobs using Apache Airflow
-
-\- Analyze key business metrics like LTV, daily revenue
+* Ingest customer data from PostgreSQL (batch)
+* Ingest real-time order events from Kafka (streaming)
+* Apply Slowly Changing Dimension (SCD Type 2) to customer data
+* Perform near real-time transformations on orders
+* Store final data in Apache Iceberg for analytics
+* Orchestrate jobs using Apache Airflow
+* Analyze key business metrics like LTV, daily revenue
 
 
 
----
 
 
-
-\## 🧱 Architecture Diagram
+## 🧱 Architecture Diagram
 
 
 
@@ -44,11 +36,11 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 
 
----
 
 
 
-\## ⚙️ Tech Stack
+
+## ⚙️ Tech Stack
 
 
 
@@ -70,11 +62,11 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 
 
----
 
 
 
-\## 🛠️ Project Structure
+
+## 🛠️ Project Structure
 
 
 
@@ -104,15 +96,15 @@ ecommerce-data-pipeline/
 
 
 
----
 
 
 
-\## 🔄 Data Flow Summary
+
+## 🔄 Data Flow Summary
 
 
 
-1\. \*\*Customer Batch Load\*\*:
+1\. **Customer Batch Load**:
 
    - Source: PostgreSQL
 
@@ -122,7 +114,7 @@ ecommerce-data-pipeline/
 
 
 
-2\. \*\*Order Stream Processing\*\*:
+2\. **Order Stream Processing**:
 
    - Source: Kafka (JSON events)
 
@@ -132,7 +124,7 @@ ecommerce-data-pipeline/
 
 
 
-3\. \*\*Orchestration\*\*:
+3\. **Orchestration**:
 
    - Airflow DAGs schedule batch jobs and monitor stream jobs
 
@@ -144,33 +136,31 @@ ecommerce-data-pipeline/
 
 
 
-\## 🧪 How to Run Locally
+## 🧪 How to Run Locally
 
 
 
-\### 📌 Prerequisites
+### 📌 Prerequisites
 
-\- Docker \& Docker Compose
-
-\- Java 8/11, Scala
-
-\- sbt (Scala build tool)
-
-\- Python 3.8+ with `venv` or `conda`
+* Docker \& Docker Compose
+* Java 8/11, Scala
+* sbt (Scala build tool)
+* Python 3.8+ with `venv` or `conda`
 
 
 
-\### 🐳 Start Services
+### 🐳 Start Services
 
 ```bash
 
 cd docker/
 
 docker-compose up -d
+```
 
 
+### 🚀 Run Spark Jobs
 
-\\### 🚀 Run Spark Jobs
 
 ```bash
 
@@ -182,7 +172,7 @@ sbt run           # or submit with spark-submit
 
 
 
-\### 🛫 Trigger Airflow DAGs
+### 🛫 Trigger Airflow DAGs
 
 ```bash
 
@@ -196,7 +186,7 @@ docker-compose up airflow-webserver airflow-scheduler
 
 
 
-\### 📊 Sample Analytics Output
+### 📊 Sample Analytics Output
 
 
 
@@ -214,7 +204,7 @@ docker-compose up airflow-webserver airflow-scheduler
 
 
 
-\### 📝 Key Learnings
+### 📝 Key Learnings
 
 * Building streaming and batch pipelines in real-world architecture
 * Handling CDC and SCD using Spark and Iceberg
@@ -224,7 +214,7 @@ docker-compose up airflow-webserver airflow-scheduler
 
 
 
-\### 📂 Resources
+### 📂 Resources
 
 * Airflow Official Docs
 * Spark Structured Streaming Guide
@@ -232,20 +222,13 @@ docker-compose up airflow-webserver airflow-scheduler
 
 
 
-\### 📧 Contact
+### 📧 Contact
 
 For questions, feel free to reach out at amit8singh008@gmail.com or connect on LinkedIn
 
 
 
 ```yaml
-
-
-
-
-
----
-
 
 
 \\## 💡 Bonus Tips:
@@ -258,13 +241,7 @@ For questions, feel free to reach out at amit8singh008@gmail.com or connect on L
 
 
 
----
-
-
-
 Would you like me to generate the diagram (`docs/architecture.png`) or starter Airflow DAG next?
-
-
 
 ```
 
