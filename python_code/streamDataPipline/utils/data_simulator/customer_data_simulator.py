@@ -13,7 +13,7 @@ def generate_fake_customer(output_type: str = "raw", delimiter: str = "|") :
     customer_id = random.randint(1000000, 9999999)
     customer_name = fake.name()
     customer_phone = fake.phone_number()
-    customer_email = fake.email()
+    customer_email = f'{customer_name.replace(" ", "_")}@example.org'
     customer_dob = fake.date_of_birth(minimum_age = 10, maximum_age = 80).isoformat()
     customer_address = fake.address().replace("\n", ",")
 
@@ -65,7 +65,7 @@ def customer_db_ingestion():
     engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
     # 3. Create a sample DataFrame
-    customer_psql = [generate_fake_customer("tuple") for _ in range(7)]
+    customer_psql = [generate_fake_customer("tuple") for _ in range(200)]
     customer_col = ["customer_id", "customer_name", "customer_phone", "customer_email", "customer_dob",
                     "customer_address"]
     df_customer_psql = pd.DataFrame(data = customer_psql, columns = customer_col)
