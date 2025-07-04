@@ -2,6 +2,8 @@
 
 #### Project Structure
 
+```
+
 ecommerce-data-pipeline/
 
 │
@@ -121,6 +123,8 @@ ecommerce-data-pipeline/
 &nbsp;   ├── start\_services.sh
 
 &nbsp;   └── populate\_data.py 
+
+```
 
 
 
