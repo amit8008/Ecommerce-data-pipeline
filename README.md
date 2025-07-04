@@ -46,7 +46,7 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 | Layer           | Tools/Tech Used                                  |
 
-|----------------|---------------------------------------------------|
+| ---------------- | --------------------------------------------------- |
 
 | Ingestion       | PostgreSQL, Kafka                                 |
 
@@ -187,6 +187,8 @@ docker-compose up airflow-webserver airflow-scheduler
 
 
 ### 📊 Sample Analytics Output
+
+
 
 
 
