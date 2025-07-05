@@ -1,6 +1,6 @@
 package com.ecommerce.load
 
-import com.ecommerce.utility.IcebergSparkConfig
+import com.ecommerce.utility.{EcomPsqlConnection, IcebergSparkConfig}
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, current_date, lit}
@@ -22,12 +22,11 @@ object LoadCustomerTable extends App {
     .getOrCreate()
 
 
+  val ecomPsqlConnection = EcomPsqlConnection(config)
   val customerDf = spark.read
     .format("jdbc")
-    .option("url", "jdbc:postgresql://localhost:5432/ecommerce")
-    .option("dbtable", "public.customer")
-    .option("user", "amitsingh")
-    .option("password", "amitsingh123")
+    .options(ecomPsqlConnection)
+    .option("dbtable", config.getString("Ecommerce.postgresql.customer"))
     .load()
 
 
