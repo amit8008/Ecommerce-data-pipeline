@@ -81,7 +81,7 @@ ecommerce-data-pipeline/
 
 ├── data/ # Raw, processed, archived data (simulated)
 
-├── docker/ # Docker setup for local testing
+├── ecommerce-docker/ # Docker setup for local testing
 
 ├── docs/ # Architecture, diagrams, tech notes
 
