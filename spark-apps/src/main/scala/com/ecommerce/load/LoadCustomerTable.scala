@@ -8,7 +8,10 @@ import org.apache.spark.sql.functions.{col, current_date, lit}
 import java.io.File
 
 object LoadCustomerTable extends App {
+
+  // using ConfigFactory.parseFile(...) to pass application.conf files as argument to run same with java command
   val config = ConfigFactory.parseFile(new File(args(0))).resolve()
+
   val icebergConf = IcebergSparkConfig(config)
 
   val spark = SparkSession
