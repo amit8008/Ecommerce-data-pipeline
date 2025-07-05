@@ -46,9 +46,9 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 | Layer           | Tools/Tech Used                                  |
 
-| ---------------- | --------------------------------------------------- |
+| --------------- | ------------------------------------------------ |
 
-| Ingestion       | PostgreSQL, Kafka                                 |
+| Ingestion       | PostgreSQL, Kafka                                |
 
 | Processing      | Apache Spark (Scala), Structured Streaming        |
 
@@ -62,12 +62,7 @@ This project demonstrates a real-world data engineering pipeline for an e-commer
 
 
 
-
-
-
-
 ## 🛠️ Project Structure
-
 
 
 ecommerce-data-pipeline/
@@ -129,10 +124,6 @@ ecommerce-data-pipeline/
    - Airflow DAGs schedule batch jobs and monitor stream jobs
 
    - Retry logic, alerts (optional), and lineage tracking
-
-
-
----
 
 
 

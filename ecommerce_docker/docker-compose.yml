@@ -32,30 +32,6 @@ services:
     networks:
       - ecommerce_network
 
-  # Adminer for MySQL Database Management (Web UI)
-  adminer:
-    image: adminer
-    container_name: adminer
-    ports:
-      - "8083:8080"
-    depends_on:
-      - mysql
-    networks:
-      - ecommerce_network
-
-  # pgAdmin for PostgreSQL Database Management
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    ports:
-      - "8080:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    depends_on:
-      - postgres
-    networks:
-      - ecommerce_network
 
 networks:
   ecommerce_network:  # Common network for all services
