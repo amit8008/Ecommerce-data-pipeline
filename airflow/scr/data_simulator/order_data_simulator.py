@@ -7,8 +7,8 @@ import pandas as pd
 import os
 
 from pandas import DataFrame
-from utils.utility import configuration
-from utils.utility.logger import logger
+from scr.utility import configuration
+from scr.utility.logger import logger
 
 fake = Faker()
 

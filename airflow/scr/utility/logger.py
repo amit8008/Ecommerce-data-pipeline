@@ -1,6 +1,6 @@
 import logging
 import os
-from utils.utility import configuration
+from scr.utility import configuration
 
 # Create logs directory if not exists
 LOG_DIR = configuration.config["logging"]["dir"]

@@ -1,4 +1,4 @@
-from utils.data_simulator.customer_data_simulator import generate_fake_customer
+from scr.data_simulator.customer_data_simulator import generate_fake_customer
 import pandas as pd
 from sqlalchemy import create_engine
 import psycopg2

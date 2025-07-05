@@ -2,8 +2,8 @@ import random
 import json
 from faker import Faker
 import pandas as pd
-from utils.utility import configuration
-from utils.utility.logger import logger
+from scr.utility import configuration
+from scr.utility.logger import logger
 
 fake = Faker()
 
