@@ -5,7 +5,7 @@ import pandas as pd
 from scr.utility import configuration
 from scr.utility.logger import logger
 
-fake = Faker()
+fake = Faker('en_IN')
 
 
 def generate_fake_seller(output_type: str = "raw", delimiter="|") :
@@ -30,27 +30,28 @@ def generate_fake_seller(output_type: str = "raw", delimiter="|") :
 num_seller = 3
 
 # Save to JSON file with pandas
-fake_seller_json = [generate_fake_seller(output_type = "json") for _ in range(num_seller)]
-# df_json = pd.DataFrame(data = fake_seller_json)
-# df_json.to_json(configuration.data_dir + "fake_seller1.json", orient = "records", indent = 4)
+fake_seller_json = [generate_fake_seller(output_type = "json") for _ in range(30)]
+df_json = pd.DataFrame(data = fake_seller_json)
+df_json.to_json(configuration.data_dir + "seller_30.json", orient = "records", indent = 4)
 
 # Print a sample product
 # logger.debug(json.dumps(fake_seller_json[:2], indent = 4))
 
 # Generating pandas dataframe from list of tuples
-fake_seller_tuple = [generate_fake_seller("tuple") for _ in range(num_seller)]
-df_tuple = pd.DataFrame(data = fake_seller_tuple)
+# fake_seller_tuple = [generate_fake_seller("tuple") for _ in range(30)]
+# df_tuple = pd.DataFrame(data = fake_seller_tuple)
+# df_tuple.to_json(configuration.data_dir + "seller_30.json", orient = "records", indent = 4)
 
 
 # logger.debug(f"\n{df_tuple}")
 # fake_seller1 = generate_fake_seller("tuple")
 # logger.debug(f"{fake_seller1[0]} | {fake_seller1[1]} | {fake_seller1[2]}")
 
-# Generating tab delimited data
+# Generating tab delimited airflow
 # fake_seller2 = generate_fake_seller()
 # logger.debug(f"{fake_seller2}")
 
-# Creating 5 seller for testing with postgresql, generate 5 seller data created as tuple with delimiter |
+# Creating 5 seller for testing with postgresql, generate 5 seller airflow created as tuple with delimiter |
 def seller_db_ingestion() :
     from sqlalchemy import create_engine
     import psycopg2
@@ -76,7 +77,6 @@ def seller_db_ingestion() :
 
     logger.info("Seller Data successfully loaded into PostgreSQL!")
 
-
 # seller_db_ingestion()
 
 # a = []
@@ -85,9 +85,9 @@ def seller_db_ingestion() :
 # d1 = {'col1':2, 'col2':3}
 # a.append(d1)
 
-# df = pd.DataFrame(data = a)
-# df = pd.DataFrame(data = fake_seller)
+# df = pd.DataFrame(airflow = a)
+# df = pd.DataFrame(airflow = fake_seller)
 
 # print(df)
 
-# TODO: write a Function to generate seller data with number of seller, file formate and file path
+# TODO: write a Function to generate seller airflow with number of seller, file format and file path

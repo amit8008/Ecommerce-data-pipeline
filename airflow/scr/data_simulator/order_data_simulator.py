@@ -10,10 +10,10 @@ from pandas import DataFrame
 from scr.utility import configuration
 from scr.utility.logger import logger
 
-fake = Faker()
+fake = Faker('en_IN')
 
 
-def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str = "raw", delimiter: str = "|") :
+def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str = "raw", delimiter: str = ",") :
     order_id = random.randint(1000, 9999)
     product_id = random.choice(product_df.iloc[:, 0].tolist())
     customer_id = random.choice(customer_df.iloc[:, 0].tolist())
@@ -39,7 +39,7 @@ def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str =
 # fake_orders = [fake_order("json") for _ in range(num_products)]
 
 # Save to JSON file with pandas
-# df = pd.DataFrame(data = fake_orders)
+# df = pd.DataFrame(airflow = fake_orders)
 
 # df.to_json(configuration.data_dir + "fake_orders1.json", orient = "records", indent = 4)
 
@@ -63,12 +63,12 @@ def generate_fake_order(customer_data_path: str, product_data_path: str, file_fo
             logger.info(f"File found at {customer_data_path}")
             customer_df = pd.read_csv(customer_data_path, sep = "|")
 
-    # Looking for product data
+    # Looking for product airflow
     if not os.path.exists(product_data_path) :
         logger.info(f"File not found at {product_data_path}")
         exit(-1)
         # logger.info(f"Creating {product_count} seller as per seller_count configured, 2 is default")
-        # product_df = pd.DataFrame(data = [generate_fake_product("tuple") for _ in range(product_count)])
+        # product_df = pd.DataFrame(airflow = [generate_fake_product("tuple") for _ in range(product_count)])
     else :
         if product_data_path.endswith("json") :
             logger.info(f"Json file found at {product_data_path}")
@@ -94,9 +94,19 @@ def adhoc_test() :
         logger.debug(i)
 
 
-adhoc_test()
+# adhoc_test()
 
-# Creating 25 orders for testing with postgresql, generate 25 orders data created as tuple with delimiter |
+order_data_1500 = generate_fake_order(configuration.data_dir + "customer_175.json",
+                                      configuration.data_dir + "product_500.json",
+                                      order_count = 1500)
+
+df_csv = pd.DataFrame(data = order_data_1500)
+df_csv.to_csv(configuration.data_dir + "order_1500.csv",
+              index = False,
+              header = ["order_id", "product_id", "customer_id", "order_time"])
+
+
+# Creating 25 orders for testing with postgresql, generate 25 orders airflow created as tuple with delimiter |
 def order_db_ingestion() :
     from sqlalchemy import create_engine
     import psycopg2

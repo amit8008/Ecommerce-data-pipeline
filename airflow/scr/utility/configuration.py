@@ -2,7 +2,7 @@ import configparser
 import os
 
 # config filepath for local
-conf_filepath = "C:\\Users\\Public\\Documents\\Stream-data-pipelines\\python_code\\streamDataPipline\\resources\\config.ini"
+conf_filepath = "C:/Users/Public/Documents/Ecommerce-data-pipeline/airflow/resources/config.ini"
 
 
 # config file path for docker or VMs

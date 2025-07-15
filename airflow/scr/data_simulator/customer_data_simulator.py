@@ -44,6 +44,8 @@ def generate_fake_customer(output_type: str = "raw", delimiter: str = "|") :
 # logger.info(json.dumps(fake_customer[:2], indent = 4))
 
 # Generating pandas dataframe from list of tuples
-# fake_customer_tuple = [generate_fake_customer("tuple") for _ in range(num_customer)]
-# df_tuple = pd.DataFrame(data = fake_customer_tuple)
-# logger.info(f"\n{df_tuple}")
+fake_customer = [generate_fake_customer("json") for _ in range(175)]
+df_json = pd.DataFrame(data = fake_customer)
+# logger.info(f"\n{df_json}")
+df_json.to_json(configuration.data_dir + "customer_175.json", orient = "records", indent = 4)
+

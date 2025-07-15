@@ -24,7 +24,7 @@ file_path = "resources/booksDBsales.csv"
 # Create kafka producer
 producer = Producer(conf)
 
-# Produce data line by line from file to topic
+# Produce airflow line by line from file to topic
 with open(file_path, mode = 'r', encoding = 'utf-8') as file :
     for line in file :
         message = line.strip()

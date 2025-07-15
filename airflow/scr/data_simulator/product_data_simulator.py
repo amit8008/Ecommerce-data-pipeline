@@ -10,7 +10,8 @@ from pandas import DataFrame
 from scr.utility import configuration
 from scr.utility.logger import logger
 
-fake = Faker()
+fake = Faker('en_IN')
+
 
 # seller_df = pd.read_json(configuration.data_dir + "fake_seller1.json", orient = 'records')
 # seller_ids = seller_df['seller_id'].tolist()
@@ -40,7 +41,7 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
     material = random.choice(["Plastic", "Metal", "Wood", "Cotton", "Leather"])
     rating = round(random.uniform(1, 5), 1)  # Random rating between 1-5
     num_reviews = random.randint(0, 5000)  # Random number of reviews
-    seller_id = random.choice(seller_df.iloc[:,0].tolist())
+    seller_id = random.choice(seller_df.iloc[:, 0].tolist())
     shipping_cost = random.choice([0, 50, 100, 200])  # Free or fixed cost
     delivery_time = random.choice(["Same-day", "2-5 days", "7+ days"])
     created_date = fake.date_time_this_year().isoformat()
@@ -85,7 +86,7 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
 # fake_products = [fake_product(output_type = "json") for _ in range(num_products)]
 
 # Save to JSON file
-# df = pd.DataFrame(data = fake_products)
+# df = pd.DataFrame(airflow = fake_products)
 
 # df.to_json(configuration.data_dir + "fake_products1.json", orient = "records", indent = 4)
 
@@ -93,18 +94,19 @@ def fake_product(seller_df: DataFrame, output_type: str = "raw", delimiter: str 
 # logger.info(json.dumps(fake_products[:2], indent = 4))
 
 
-def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_count: int = 5, file_format: str = "json") :
+def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_count: int = 5,
+                          file_format: str = "json") :
     if not os.path.exists(seller_data_path) :
         logger.info(f"File not found at {seller_data_path}")
         # logger.info(f"Creating {seller_count} seller as per seller_count configured, 2 is default")
-        # seller_df = pd.DataFrame(data = [seller_data_simulator.generate_fake_seller("tuple") for _ in range(seller_count)])
-    else:
-        if seller_data_path.endswith("json"):
+        # seller_df = pd.DataFrame(airflow = [seller_data_simulator.generate_fake_seller("tuple") for _ in range(seller_count)])
+    else :
+        if seller_data_path.endswith("json") :
             logger.info(f"File found at {seller_data_path}")
-            seller_df = pd.read_json(seller_data_path,  orient = "records")
-        else:
+            seller_df = pd.read_json(seller_data_path, orient = "records")
+        else :
             logger.info(f"File found at {seller_data_path}")
-            seller_df = pd.read_csv(seller_data_path,  sep = "|")
+            seller_df = pd.read_csv(seller_data_path, sep = "|")
 
     logger.info(f"Creating {product_count} product as per product_count configured, 5 is default")
     logger.info(f"\n{seller_df}")
@@ -115,12 +117,14 @@ def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_
 # logger.info(result_2_5)
 
 
-result_json_5 = generate_fake_product(configuration.data_dir + "fake_seller1.json")
-# logger.info(result_json_5)
+result_json_500 = generate_fake_product(configuration.data_dir + "seller_30.json", product_count = 500)
+# logger.info(result_json_500)
+df_json = pd.DataFrame(data = result_json_500)
+df_json.to_json(configuration.data_dir + "product_500.json", orient = "records", indent = 4)
 
 
-# Creating 12 product for testing with postgresql, generate 12 product data created as tuple with delimiter |
-def product_db_ingestion():
+# Creating 12 product for testing with postgresql, generate 12 product airflow created as tuple with delimiter |
+def product_db_ingestion() :
     from sqlalchemy import create_engine
     import psycopg2
 
@@ -146,7 +150,4 @@ def product_db_ingestion():
 
     print("Product Data successfully loaded into PostgreSQL!")
 
-
 # product_db_ingestion()
-
-

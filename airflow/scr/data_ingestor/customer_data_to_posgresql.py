@@ -7,7 +7,7 @@ import psycopg2
 def customer_db_ingestion(count, db_user,db_password,db_host,db_port="5432",db_name="ecommerce"):
 
     """
-    :param count: Number of customer data need to ingest in table
+    :param count: Number of customer airflow need to ingest in table
     :param db_user: database user
     :param db_password: database password
     :param db_host: database host, If using Docker, replace with container name e.g., "postgres_db"
@@ -28,6 +28,6 @@ def customer_db_ingestion(count, db_user,db_password,db_host,db_port="5432",db_n
     # Load DataFrame into PostgresSQL
     df_customer_psql.to_sql("customer", engine, if_exists = "append", index = False)
 
-    print(f"{count} customer data successfully loaded into PostgresSQL!")
+    print(f"{count} customer airflow successfully loaded into PostgresSQL!")
 
 # customer_db_ingestion(200, "amitsingh", "amitsingh123", "host.docker.internal")

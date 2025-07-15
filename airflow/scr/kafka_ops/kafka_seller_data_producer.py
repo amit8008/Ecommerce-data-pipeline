@@ -22,13 +22,13 @@ def acked(err, msg) :
         logger.info("Message produced: %s" % (str(msg)))
 
 
-# Path to the file ******Need to simulate data in CSV for testing***********
+# Path to the file ******Need to simulate airflow in CSV for testing***********
 seller_data = configuration.data_dir + "fake_seller1.json"
 
 # Create kafka producer
 producer = Producer(conf)
 
-# function to generate and produce the data to kafka topic
+# function to generate and produce the airflow to kafka topic
 num_seller = 5
 for _ in range(num_seller):
     fake_seller = seller_data_simulator.generate_fake_seller()
