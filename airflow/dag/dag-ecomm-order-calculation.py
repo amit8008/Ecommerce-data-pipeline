@@ -226,7 +226,7 @@ def top_10_customer() :
     logging.info("Top 10 customers: ")
     logging.info(top_10_cust.columns)
 
-    upsert_to_redshift(top_10_cust, 'top_10_cust', ['total_orders'])
+    upsert_to_redshift(top_10_cust, 'top_10_cust', ['customer_id'])
 
 
 def move_processed_files() :
@@ -235,7 +235,7 @@ def move_processed_files() :
         stream_files = list_s3_files(ORDER_PREFIX)
         for file in stream_files :
             copy_source = {'Bucket' :BUCKET_NAME, 'Key' :file}
-            destination_key = file.replace('spotify_data/streams/', 'spotify_data/streams/archived/')
+            destination_key = file.replace('ecomm_data/streams/', 'ecomm_data/streams/archived/')
             s3.copy_object(CopySource = copy_source, Bucket = BUCKET_NAME, Key = destination_key)
             s3.delete_object(Bucket = BUCKET_NAME, Key = file)
             logging.info(f"Moved {file} to {destination_key}")
@@ -256,12 +256,12 @@ with DAG('data_validation_and_order_computation', default_args = default_args, s
         provide_context = True
     )
 
-    calculate_genre_level_kpis = PythonOperator(
+    top_selling_category = PythonOperator(
         task_id = 'top_selling_category',
         python_callable = top_selling_category
     )
 
-    calculate_hourly_kpis = PythonOperator(
+    top_10_customer = PythonOperator(
         task_id = 'top_10_customer',
         python_callable = top_10_customer
     )
