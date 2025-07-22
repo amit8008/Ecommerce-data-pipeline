@@ -47,5 +47,5 @@ def generate_fake_customer(output_type: str = "raw", delimiter: str = "|") :
 fake_customer = [generate_fake_customer("json") for _ in range(175)]
 df_json = pd.DataFrame(data = fake_customer)
 # logger.info(f"\n{df_json}")
-df_json.to_json(configuration.data_dir + "customer_175.json", orient = "records", indent = 4)
-
+# df_json.to_json(configuration.data_dir + "customer_175.json", orient = "records", indent = 4)
+print(df_json.columns)

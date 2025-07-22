@@ -32,7 +32,8 @@ num_seller = 3
 # Save to JSON file with pandas
 fake_seller_json = [generate_fake_seller(output_type = "json") for _ in range(30)]
 df_json = pd.DataFrame(data = fake_seller_json)
-df_json.to_json(configuration.data_dir + "seller_30.json", orient = "records", indent = 4)
+# df_json.to_json(configuration.data_dir + "seller_30.json", orient = "records", indent = 4)
+print(df_json.columns)
 
 # Print a sample product
 # logger.debug(json.dumps(fake_seller_json[:2], indent = 4))

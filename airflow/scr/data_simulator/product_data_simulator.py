@@ -120,7 +120,9 @@ def generate_fake_product(seller_data_path: str, seller_count: int = 2, product_
 result_json_500 = generate_fake_product(configuration.data_dir + "seller_30.json", product_count = 500)
 # logger.info(result_json_500)
 df_json = pd.DataFrame(data = result_json_500)
-df_json.to_json(configuration.data_dir + "product_500.json", orient = "records", indent = 4)
+print(df_json.columns)
+
+# df_json.to_json(configuration.data_dir + "product_500.json", orient = "records", indent = 4)
 
 
 # Creating 12 product for testing with postgresql, generate 12 product airflow created as tuple with delimiter |
