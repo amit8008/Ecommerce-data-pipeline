@@ -17,8 +17,8 @@ def fake_order(customer_df: DataFrame, product_df: DataFrame, output_type: str =
     order_id = random.randint(1000, 9999)
     product_id = random.choice(product_df.iloc[:, 0].tolist())
     customer_id = random.choice(customer_df.iloc[:, 0].tolist())
-    # order_time = fake.date_time_this_year().isoformat()
-    order_time = datetime.now()
+    order_time = fake.date_time_this_year().isoformat()
+    # order_time = datetime.now()
 
     if output_type == "json" :
         return {
