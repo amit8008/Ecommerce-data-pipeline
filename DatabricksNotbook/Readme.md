@@ -1,1 +1,1 @@
-# Ecommerce Data Pipeline with Daatabricks Notebooks and DLT pipeline
+# Ecommerce Data Pipeline with Databricks Notebooks and DLT pipeline
