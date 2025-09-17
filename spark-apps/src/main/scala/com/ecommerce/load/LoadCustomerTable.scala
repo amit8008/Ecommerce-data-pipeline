@@ -46,21 +46,53 @@ object LoadCustomerTable extends App {
   customerSCD2.createOrReplaceTempView("staged")
   spark.sql(
     """
-      |MERGE INTO prod01.ecommerce.customers_bronze as target
+      |MERGE INTO prod01.ecommerce.customers_bronze AS target
       |USING staged AS source
       |ON target.customer_id = source.customer_id AND target.is_active = true
       |WHEN MATCHED AND (
-      |target.customer_name <> source.customer_name OR
-      |target.customer_email <> source.customer_email OR
-      |target.customer_address <> source.customer_address
+      |    target.customer_name <> source.customer_name OR
+      |    target.customer_email <> source.customer_email OR
+      |    target.customer_address <> source.customer_address
       |)
-      |THEN
-      |UPDATE SET
-      |target.is_active = false,
-      |target.end_date = source.start_date
-      |WHEN NOT MATCHED THEN
-      |INSERT *
+      |THEN UPDATE SET
+      |    is_active = false,
+      |    end_date = source.start_date   -- or current_date
+      |
       |""".stripMargin)
 
+  spark.sql(
+    """
+      |INSERT INTO prod01.ecommerce.customers_bronze (
+      |    customer_id,
+      |    customer_name,
+      |    customer_phone,
+      |    customer_dob,
+      |    customer_email,
+      |    customer_address,
+      |    is_active,
+      |    start_date,
+      |    end_date
+      |)
+      |SELECT
+      |    s.customer_id,
+      |    s.customer_name,
+      |    s.customer_phone,
+      |    s.customer_dob,
+      |    s.customer_email,
+      |    s.customer_address,
+      |    true AS is_active,
+      |    s.start_date,   -- or current_date
+      |    NULL AS end_date
+      |FROM staged s
+      |LEFT JOIN prod01.ecommerce.customers_bronze t
+      |    ON s.customer_id = t.customer_id
+      |   AND t.is_active = true
+      |WHERE t.customer_id IS NULL            -- new customer
+      |   OR t.customer_name <> s.customer_name
+      |   OR t.customer_email <> s.customer_email
+      |   OR t.customer_address <> s.customer_address;
+      |
+      |""".stripMargin
+  )
 
 }
