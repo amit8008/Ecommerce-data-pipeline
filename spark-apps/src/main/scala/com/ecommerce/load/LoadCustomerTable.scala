@@ -30,20 +30,23 @@ object LoadCustomerTable extends App {
     .load()
 
 
+//  customerDf.show()
+
 // Add metadata columns for SCD Type 2
   val customerSCD2 = customerDf
     .withColumn("start_date", current_date())
     .withColumn("end_date", lit(null).cast("date"))
     .withColumn("is_active", lit(true))
 
+//  customerSCD2.show()
+
 
   //  Perform SCD Type 2 merge into Iceberg table
-
 
   customerSCD2.createOrReplaceTempView("staged")
   spark.sql(
     """
-      |MERGE INTO prod01.ecommerce.customers as target
+      |MERGE INTO prod01.ecommerce.customers_bronze as target
       |USING staged AS source
       |ON target.customer_id = source.customer_id AND target.is_active = true
       |WHEN MATCHED AND (
@@ -59,8 +62,5 @@ object LoadCustomerTable extends App {
       |INSERT *
       |""".stripMargin)
 
-
-  //  customerSCD2.writeTo("prod01.ecommerce.customers")
-  //    .append()
 
 }
