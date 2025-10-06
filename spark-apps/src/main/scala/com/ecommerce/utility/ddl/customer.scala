@@ -11,8 +11,8 @@ object customer {
         |customer_email STRING,
         |customer_dob DATE,
         |customer_address STRING,
-        |start_date DATE,
-        |end_date DATE,
+        |start_date TIMESTAMP,
+        |end_date TIMESTAMP,
         |is_active BOOLEAN
         |)
         |USING iceberg

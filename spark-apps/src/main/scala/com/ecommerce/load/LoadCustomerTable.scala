@@ -3,7 +3,7 @@ package com.ecommerce.load
 import com.ecommerce.utility.{EcomPsqlConnection, IcebergSparkConfig}
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{col, current_date, lit}
+import org.apache.spark.sql.functions.{col, current_date, current_timestamp, lit}
 
 import java.io.File
 
@@ -34,7 +34,7 @@ object LoadCustomerTable extends App {
 
 // Add metadata columns for SCD Type 2
   val customerSCD2 = customerDf
-    .withColumn("start_date", current_date())
+    .withColumn("start_date", current_timestamp())
     .withColumn("end_date", lit(null).cast("date"))
     .withColumn("is_active", lit(true))
 
@@ -58,6 +58,10 @@ object LoadCustomerTable extends App {
       |    is_active = false,
       |    end_date = source.start_date   -- or current_date
       |
+      |WHEN NOT MATCHED BY source AND (target.is_active = true)
+      |THEN UPDATE SET
+      |    is_active = false,
+      |    end_date = current_timestamp ;
       |""".stripMargin)
 
   spark.sql(
