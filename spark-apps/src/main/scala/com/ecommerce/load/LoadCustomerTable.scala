@@ -3,7 +3,9 @@ package com.ecommerce.load
 import com.ecommerce.utility.{EcomPsqlConnection, IcebergSparkConfig}
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{col, current_date, current_timestamp, lit}
+import org.apache.spark.sql.functions.{col, current_date, current_timestamp, lit, to_timestamp}
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 
 import java.io.File
 
@@ -33,8 +35,10 @@ object LoadCustomerTable extends App {
 //  customerDf.show()
 
 // Add metadata columns for SCD Type 2
+  val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
+  val currentTimestamp = DateTime.now().toString(formatter)
   val customerSCD2 = customerDf
-    .withColumn("start_date", current_timestamp())
+    .withColumn("start_date", to_timestamp(lit(currentTimestamp)))
     .withColumn("end_date", lit(null).cast("date"))
     .withColumn("is_active", lit(true))
 
@@ -98,5 +102,7 @@ object LoadCustomerTable extends App {
       |
       |""".stripMargin
   )
+
+  spark.sql("select * from prod01.ecommerce.customers_bronze where customer_id = 9845732").show(false)
 
 }
