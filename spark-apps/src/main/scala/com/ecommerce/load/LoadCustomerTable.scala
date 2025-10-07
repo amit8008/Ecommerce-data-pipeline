@@ -103,6 +103,5 @@ object LoadCustomerTable extends App {
       |""".stripMargin
   )
 
-  spark.sql("select * from prod01.ecommerce.customers_bronze where customer_id = 9845732").show(false)
 
 }
