@@ -83,17 +83,6 @@ ecommerce-data-pipeline/
 
 ├── ecommerce-docker/ # Docker setup for local testing
 
-├── docs/ # Architecture, diagrams, tech notes
-
-└── scripts/ # Startup scripts, job triggers
-
-
-
-
-
-
-
-
 
 ## 🔄 Data Flow Summary
 
