@@ -1,5 +1,6 @@
 package com.ecommerce.load
 
+import com.ecommerce.utility.ddl.customer.createCustomerBronze
 import com.ecommerce.utility.{EcomPsqlConnection, IcebergSparkConfig}
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.SparkSession
@@ -9,7 +10,7 @@ import org.joda.time.format.DateTimeFormat
 
 import java.io.File
 
-object LoadCustomerTable extends App {
+object ExtractCustomerBronze extends App {
 
   // using ConfigFactory.parseFile(...) to pass application.conf files as argument to run same with java command
   val config = ConfigFactory.parseFile(new File(args(0))).resolve()
@@ -23,6 +24,8 @@ object LoadCustomerTable extends App {
     .config(icebergConf)
     .getOrCreate()
 
+  // Creating Customer Bronze table if not exists
+  spark.sql(createCustomerBronze)
 
   val ecomPsqlConnection = EcomPsqlConnection(config)
   val customerDf = spark.read
