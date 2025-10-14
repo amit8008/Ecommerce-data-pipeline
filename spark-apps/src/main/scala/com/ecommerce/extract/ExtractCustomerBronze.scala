@@ -1,4 +1,4 @@
-package com.ecommerce.load
+package com.ecommerce.extract
 
 import com.ecommerce.utility.ddl.customer.createCustomerBronze
 import com.ecommerce.utility.{EcomPsqlConnection, IcebergSparkConfig}
