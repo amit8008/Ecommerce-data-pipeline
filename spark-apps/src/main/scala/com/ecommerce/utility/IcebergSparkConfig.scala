@@ -8,7 +8,7 @@ object IcebergSparkConfig {
     "spark.sql.catalog.spark_catalog.type" -> "hive",
     "spark.sql.catalog.local" -> "org.apache.iceberg.spark.SparkCatalog",
     "spark.sql.catalog.local.type" -> "hadoop",
-    "spark.sql.catalog.local.warehouse" -> config.getString("Ecommerce.Iceberg.warehouse"),
+    "spark.sql.catalog.local.warehouse" -> config.getString("Ecommerce.iceberg.warehouse"),
     "spark.sql.defaultCatalog" -> "local"
   )
 
