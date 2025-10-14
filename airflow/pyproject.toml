@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecomm-airflow"
+version = "0.1.0"
+description = "Airflow dag project for Orchastracing ETL of Ecomm Analytics"
+authors = [
+  { name = "Amit Singh"},
+]
+license = { text = "MIT" } # Or { file = "LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    # Airflow with specific provider packages.
+    "apache-airflow>=2.8",
+    "apache-airflow-providers-apache-spark>=4.1",
+
+    # PySpark for Spark jobs.
+    "pyspark>=3.4",
+
+    # Other common dependencies for data engineering.
+    "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+# Dependencies for developers, including testing, linting, and formatting tools.
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.1",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"] # Flake8 errors, Pyflakes, and isort
+ignore = ["E501"] # Handled by formatter
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config"
+testpaths = ["tests"]
