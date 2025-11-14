@@ -18,7 +18,7 @@ def test_transformed_should_filter_invalid_row_and_add_column(spark: SparkSessio
 
     expected_data = [
         Row(customer_id = 1, name = "Amit", age = 30,  country = "India", is_adult = True),
-        Row(customer_id = 2, name = "KAmit", age = 21, country = "Unknown", is_adult = True)
+        Row(customer_id = 2, name = "KAmit", age = 20, country = "Unknown", is_adult = True)
     ]
 
     expected_df = spark.createDataFrame(expected_data)

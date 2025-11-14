@@ -42,7 +42,7 @@ def load(df: DataFrame, output_path):
     :param output_path: path to load the file
     :return: None
     """
-    df.write.option("header", True).csv(output_path)
+    df.write.mode("overwrite").parquet(output_path)
 
 
 def run_pipeline(spark:SparkSession, input_path, output_path):
@@ -58,4 +58,13 @@ def run_pipeline(spark:SparkSession, input_path, output_path):
     df = extract(spark, input_path)
     df_transformed = transform(df)
     load(df_transformed,output_path)
+
+
+if __name__ == "__main__":
+    print("Running ETL...")
+    from utils.spark_utils import get_spark_session
+    spark = get_spark_session("Customer ETL local")
+    run_pipeline(spark,
+                 "/C:/Users/Public/Documents/Ecommerce-data-pipeline/pyspark-etl/data/customer_sample.csv",
+                 "/C:/Users/Public/Documents/Ecommerce-data-pipeline/pyspark-etl/output")
 
