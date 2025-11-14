@@ -1,0 +1,7 @@
+pyspark==3.5.2
+pytest==8.3.2
+chispa==0.9.2
+
+# Core environment setup
+setuptools>=80.0
+wheel>=0.43.0
