@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 from jobs.customer_etl import run_pipeline
 
 
-def test_end_to_end_pipeline(spark: SparkSession, tmp_path) :
+def test_end_to_end_pipeline(spark, tmp_path) :
     # setup paths
     input_path = os.path.join("/C:/Users/Public/Documents/Ecommerce-data-pipeline/pyspark-etl/data", "customer_sample.csv")
     output_path = tmp_path / "output"

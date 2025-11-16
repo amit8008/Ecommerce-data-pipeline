@@ -5,7 +5,7 @@ from pyspark.sql import SparkSession
 from jobs.customer_etl import transform
 
 
-def test_transformed_should_filter_invalid_row_and_add_column(spark: SparkSession):
+def test_transformed_should_filter_invalid_row_and_add_column(spark):
 
     input_data = [
         Row(customer_id = 1, name = "Amit", age = 30, country = "India"),
